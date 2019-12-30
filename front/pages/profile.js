@@ -1,8 +1,8 @@
 import React from "react";
-import AppLayout from "../components/AppLayout";
 import Head from "next/head";
+import AppLayout from "../components/AppLayout";
 
-const Signup = () => {
+const Profile = () => {
     return (
         <>
             <Head>
@@ -12,10 +12,10 @@ const Signup = () => {
                 ></link>
             </Head>
             <AppLayout>
-                <div>회원가입</div>
+                <div>프로필</div>
             </AppLayout>
         </>
     );
 };
 
-export default Signup;
+export default Profile;
