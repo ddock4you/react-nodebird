@@ -4,49 +4,31 @@ import { Button, Checkbox, Form, Input } from "antd";
 import AppLayout from "../components/AppLayout";
 
 const Signup = () => {
+    const [id, setId] = useState("");
+    const [nick, setNick] = useState("");
+    const [password, setpassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
-    const [term, setTerm] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
-    const [termError, setTermError] = useState(false);
+    const [term, setTerm] = useState("");
 
-    const useInput = (initValue = null) => {
-        const [value, setter] = useState(initValue);
-        const handler = e => {
-            setter(e.target.value);
-        };
-        return [value, handler];
+    const onSubmit = () => {};
+
+    const onChangeId = e => {
+        setId(e.target.value);
     };
 
-    const [id, onChangeId] = useInput("");
-    const [nick, onChangeNick] = useInput("");
-    const [password, onChangePassword] = useInput("");
+    const onChangeNick = e => {
+        setNick(e.target.value);
+    };
 
-    const onSubmit = e => {
-        e.preventDefault();
-        if (password !== passwordCheck) {
-            return setPasswordError(true);
-        }
-        if (!term) {
-            return setTermError(true);
-        }
-        console.log({
-            id,
-            nick,
-            password,
-            passwordCheck,
-            term
-        });
+    const onChangePassword = e => {
+        setpassword(e.target.value);
     };
 
     const onChangePasswordCheck = e => {
-        setPasswordError(e.target.value !== password);
         setPasswordCheck(e.target.value);
     };
 
-    const onChangeTerm = e => {
-        setTermError(false);
-        setTerm(e.target.checked);
-    };
+    const onChangeTerm = () => {};
 
     return (
         <>
@@ -103,25 +85,11 @@ const Signup = () => {
                             required
                             onChange={onChangePasswordCheck}
                         />
-                        {passwordError && (
-                            <div style={{ color: "red" }}>
-                                비밀번호가 일치하지 않습니다.
-                            </div>
-                        )}
                     </div>
                     <div>
-                        <Checkbox
-                            name="user-term"
-                            checked={term}
-                            onChange={onChangeTerm}
-                        >
+                        <Checkbox name="user-term" onChange={onChangeTerm}>
                             제로초 말을 잘 들을 것을 동의합니다.
                         </Checkbox>
-                        {termError && (
-                            <div style={{ color: "red" }}>
-                                약관에 동의하셔야 합니다.
-                            </div>
-                        )}
                     </div>
                     <div style={{ marginTop: 10 }}>
                         <Button type="primary" htmlType="submit">
