@@ -40,7 +40,7 @@ const AppLayout = ({ children }) => {
                     <Button>회원가입</Button>
                 </a>
             </Link>
-            <Row>
+            <Row gutter={8}>
                 <Col xs={24} md={6}>
                     {dummy.isLoggedIn ? (
                         <Card
@@ -71,10 +71,15 @@ const AppLayout = ({ children }) => {
                         <LoginForm />
                     )}
                 </Col>
-                <Col xs={24} md={12}></Col>
-                <Col xs={24} md={6}></Col>
+                <Col xs={24} md={12}>
+                    {children}
+                </Col>
+                <Col xs={24} md={6}>
+                    <Link href="https://www.zerocho.com">
+                        <a target="_blank">Made by ZeroCho</a>
+                    </Link>
+                </Col>
             </Row>
-            {children}
         </div>
     );
 };
