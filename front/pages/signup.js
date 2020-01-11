@@ -1,6 +1,14 @@
 import React, { useState, useCallback } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 
+export const useInput = (initValue = null) => {
+    const [value, setter] = useState(initValue);
+    const handler = useCallback(e => {
+        setter(e.target.value);
+    }, []);
+    return [value, handler];
+};
+
 const Signup = () => {
     const [id, setId] = useState("");
     const [nick, setNick] = useState("");
@@ -11,13 +19,6 @@ const Signup = () => {
     const [termError, setTermError] = useState("");
 
     // custom hook
-    const useInput = useCallback(initValue => {
-        const [value, setter] = useState(initValue);
-        const handler = e => {
-            setter(e.target.value);
-        };
-        return [value, handler];
-    }, []);
 
     const onSubmit = useCallback(
         e => {
