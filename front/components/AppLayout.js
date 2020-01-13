@@ -74,17 +74,13 @@ const AppLayout = ({ children }) => {
                 <Col xs={24} md={12}>
                     {children}
                 </Col>
-                <Col xs={24} md={6}>
-                    <Link href="https://www.zerocho.com">
-                        <a target="_blank">Made by ZeroCho</a>
-                    </Link>
-                </Col>
+                <Col xs={24} md={6}></Col>
             </Row>
         </div>
     );
 };
 
-AppLayout.PropTypes = {
+AppLayout.propTypes = {
     children: PropTypes.node
 };
 

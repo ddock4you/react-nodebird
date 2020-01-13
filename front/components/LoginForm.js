@@ -14,8 +14,7 @@ const loginForm = () => {
                 password
             });
         },
-        id,
-        password
+        [id, password]
     );
 
     return (
