@@ -2,11 +2,14 @@ import React from "react";
 import Head from "next/head";
 import AppLayout from "../components/AppLayout";
 import Proptypes from "prop-types";
+import withRedux from "next-redux-wrapper";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "../reducers";
 
-// next.js 에서 넣어주는 props
-const Nodebird = ({ Component }) => {
+const Nodebird = ({ Component, store }) => {
     return (
-        <>
+        <Provider store={store}>
             <Head>
                 <title>NodeBird</title>
                 <link
@@ -17,12 +20,18 @@ const Nodebird = ({ Component }) => {
             <AppLayout>
                 <Component />
             </AppLayout>
-        </>
+        </Provider>
     );
 };
 
 Nodebird.propTypes = {
-    Component: Proptypes.elementType
+    Component: Proptypes.elementType,
+    store: Proptypes.object
 };
 
-export default Nodebird;
+// 고차 컴포넌트
+export default withRedux((initialState, options) => {
+    const store = createStore(reducer, initialState);
+    // 이 곳에 sotre 커스터마이징
+    return store;
+})(Nodebird);
