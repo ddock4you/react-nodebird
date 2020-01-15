@@ -4,29 +4,14 @@ import PostCard from "../components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction, logoutAction } from "../reducers/user";
 
-const dummy = {
-    isLoggedIn: true,
-    imagePaths: [],
-    mainPosts: [
-        {
-            User: {
-                id: 1,
-                nickname: "팥우유"
-            },
-            content: "첫 번째 게시글",
-            img:
-                "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726"
-        }
-    ]
-};
-
 const Home = () => {
     const dispatch = useDispatch();
-    const { isLoggedIn, user } = useSelector(state => state.user);
+    const { user, isLoggedIn } = useSelector(state => state.user);
+    const { mainPosts } = useSelector(state => state.post);
 
-    useEffect(() => {
-        dispatch(loginAction);
-    }, []);
+    // useEffect(() => {
+    //     dispatch(loginAction);
+    // }, []);
     return (
         <div>
             {user ? (
@@ -34,8 +19,8 @@ const Home = () => {
             ) : (
                 <div>로그아웃 했습니다.</div>
             )}
-            {dummy.isLoggedIn && <PostForm />}
-            {dummy.mainPosts.map(c => {
+            {isLoggedIn && <PostForm />}
+            {mainPosts.map(c => {
                 return <PostCard key={c} post={c} />;
             })}
         </div>
