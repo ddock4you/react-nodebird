@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
+import { useDispatch } from "react-redux";
+import { signUpAction } from "../reducers/user";
 
 export const useInput = (initValue = null) => {
     const [value, setter] = useState(initValue);
@@ -19,7 +21,7 @@ const Signup = () => {
     const [termError, setTermError] = useState("");
 
     // custom hook
-
+    const dispatch = useDispatch();
     const onSubmit = useCallback(
         e => {
             e.preventDefault();
@@ -36,6 +38,14 @@ const Signup = () => {
                 passwordCheck,
                 term
             });
+            dispatch(
+                signUpAction({
+                    id,
+                    nick,
+                    password,
+                    term
+                })
+            );
         },
         [password, passwordCheck, term]
     );
