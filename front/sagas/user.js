@@ -18,8 +18,8 @@ function loginAPI() {
 
 function* login() {
     try {
-        // yield call(loginAPI);
-        yield delay(100);
+        // yield fork(logger); logger는 내 기록을 로깅하는 함수
+        yield call(loginAPI);
         yield put({
             // put은 dispatch 동일
             type: LOG_IN_SUCCESS
