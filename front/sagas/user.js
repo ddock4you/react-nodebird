@@ -25,17 +25,16 @@ function* login() {
 }
 
 function* watchLogin() {
-    yield takeLatest(LOG_IN, login);
-}
-
-function* helloSaga() {
-    console.log("before saga");
     while (true) {
-        yield take(HELLO_SAGA);
-        console.log("hello saga");
+        yield take(LOG_IN);
+        yield put({
+            type: LOG_IN_SUCCESS
+        });
     }
 }
 
+function watchSignUp() {}
+
 export default function* userSaga() {
-    yield helloSaga();
+    yield all([watchLogin(), watchSignUp()]);
 }
