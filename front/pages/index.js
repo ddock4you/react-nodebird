@@ -8,7 +8,20 @@ const Home = () => {
     const { user, isLoggedIn } = useSelector(state => state.user);
     const { mainPosts } = useSelector(state => state.post);
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        dispatch({
+            type: "HELLO_SAGA"
+        });
+        dispatch({
+            type: "HELLO_SAGA"
+        });
+        dispatch({
+            type: "HELLO_SAGA"
+        });
+        dispatch({
+            type: "HELLO_SAGA"
+        });
+    }, []);
 
     return (
         <div>
