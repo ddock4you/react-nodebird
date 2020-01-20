@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Form, Input, Button, Card, Icon, Avatar } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_POST_REQUEST } from "../reducers/post";
 
 const PostForm = () => {
-    const { imagePaths } = useSelector(state => state.post);
+    const dispatch = useDispatch();
+    const [text, setText] = useState("");
+    const { imagePaths, isAddingPost, postAdded } = useSelector(
+        state => state.post
+    );
+
+    useEffect(() => {
+        setText("");
+    }, [postAdded === true]);
+
+    const onSubmitForm = useCallback(e => {
+        e.preventDefault();
+        dispatch({
+            type: ADD_POST_REQUEST,
+            data: {
+                text
+            }
+        });
+    }, []);
+
+    const onChangeText = useCallback(e => {
+        setText(e.target.value);
+    }, []);
     return (
-        <Form encType="multipart/form-data" style={{ margin: "10px 0 20px" }}>
+        <Form
+            encType="multipart/form-data"
+            onSubmit={onSubmitForm}
+            style={{ margin: "10px 0 20px" }}
+        >
             <Input.TextArea
                 maxLength={140}
                 placeholder="어떤 신기한 일이 있었나요?"
+                value={text}
+                onChange={onChangeText}
             />
             <div>
                 <Input type="file" multiple hidden />
@@ -17,6 +46,7 @@ const PostForm = () => {
                     type="primary"
                     style={{ float: "right" }}
                     htmlType="submit"
+                    loading={isAddingPost}
                 >
                     짹짹
                 </Button>
