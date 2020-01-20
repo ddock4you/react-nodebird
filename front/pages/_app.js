@@ -27,12 +27,11 @@ const Nodebird = ({ Component, store }) => {
 };
 
 Nodebird.propTypes = {
-    Component: Proptypes.elementType,
-    store: Proptypes.object
+    Component: Proptypes.elementType.isRequired,
+    store: Proptypes.object.isRequired
 };
 
-// 고차 컴포넌트
-export default withRedux((initialState, options) => {
+const configStore = (initialState, options) => {
     const sagaMiddleware = createSagaMiddleware();
     const middlewares = [sagaMiddleware];
     const enhancer =
@@ -49,4 +48,7 @@ export default withRedux((initialState, options) => {
     const store = createStore(reducer, initialState, enhancer);
     sagaMiddleware.run(rootSaga);
     return store;
-})(Nodebird);
+};
+
+// 고차 컴포넌트
+export default withRedux(configStore)(Nodebird);
