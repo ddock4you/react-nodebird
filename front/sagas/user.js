@@ -15,9 +15,6 @@ import {
     SIGN_UP_REQUEST
 } from "../reducers/user";
 
-const HELLO_SAGA = "HELLO_SAGA";
-const BYE_SAGA = "BYE_SAGA";
-
 function loginAPI() {
     // 서버에 요청을 보내는 부분
 }
@@ -25,7 +22,8 @@ function loginAPI() {
 function* login() {
     try {
         // yield fork(logger); logger는 내 기록을 로깅하는 함수
-        yield call(loginAPI);
+        // yield call(loginAPI);
+        yield delay(1000);
         yield put({
             // put은 dispatch 동일
             type: LOG_IN_SUCCESS
@@ -45,7 +43,6 @@ function* watchLogin() {
 
 function signUpAPI() {
     // 서버에 요청을 보내는 부분
-    
 }
 
 function* signUp() {
@@ -65,7 +62,7 @@ function* signUp() {
     }
 }
 
-function watchSignUp() {
+function* watchSignUp() {
     yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 

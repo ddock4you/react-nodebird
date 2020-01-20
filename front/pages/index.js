@@ -5,28 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { user, isLoggedIn } = useSelector(state => state.user);
+    const { me, isLoggedIn } = useSelector(state => state.user);
     const { mainPosts } = useSelector(state => state.post);
 
-    useEffect(() => {
-        dispatch({
-            type: "HELLO_SAGA"
-        });
-        dispatch({
-            type: "HELLO_SAGA"
-        });
-        dispatch({
-            type: "HELLO_SAGA"
-        });
-        dispatch({
-            type: "HELLO_SAGA"
-        });
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <div>
-            {user ? (
-                <div>로그인 했습니다. {user.nickname}</div>
+            {me ? (
+                <div>로그인 했습니다. {me.nickname}</div>
             ) : (
                 <div>로그아웃 했습니다.</div>
             )}

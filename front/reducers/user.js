@@ -57,14 +57,14 @@ export const REMOVE_FOLLOWER_FAILURE = "REMOVE_FOLLOWER_FAILURE";
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 
 // 실제 액션
-export const signUpAction = data => {
+export const signUpRequestAction = data => {
     return {
         type: SIGN_UP_REQUEST,
         data
     };
 };
 
-export const loginAction = {
+export const loginRequestAction = {
     type: LOG_IN_REQUEST
 };
 export const logoutAction = {
@@ -77,22 +77,25 @@ const reducer = (state = initialState, action) => {
         case LOG_IN_REQUEST: {
             return {
                 ...state,
-                lodingData: action.data,
-                isLoading: true
+                isLoggingIn: true,
+                logInErrorReason: ""
             };
         }
         case LOG_IN_SUCCESS: {
             return {
                 ...state,
+                isLoggingIn: false,
                 isLoggedIn: true,
                 me: dummyUser,
-                isLoding: false
+                isLoading: false
             };
         }
         case LOG_IN_FAILURE: {
             return {
                 ...state,
+                isLoggingIn: false,
                 isLoggedIn: false,
+                logInErrorReason: action.error,
                 me: null
             };
         }

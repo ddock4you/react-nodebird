@@ -62,18 +62,10 @@ export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE";
 
 const ADD_DUMMY = "ADD_DUMMY";
 
-const addPost = {
-    type: ADD_POST
-};
 const addDummy = {};
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_POST: {
-            return {
-                ...state
-            };
-        }
         case ADD_DUMMY: {
             return {
                 ...state,
