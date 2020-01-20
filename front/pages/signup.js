@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SIGN_UP_REQUEST } from "../reducers/user";
 
 export const useInput = (initValue = null) => {
@@ -12,6 +12,7 @@ export const useInput = (initValue = null) => {
 };
 
 const Signup = () => {
+    const { isSigningUp } = useSelector(state => state.user);
     const [id, setId] = useState("");
     const [nick, setNick] = useState("");
     const [password, setpassword] = useState("");
@@ -135,7 +136,11 @@ const Signup = () => {
                     )}
                 </div>
                 <div style={{ marginTop: 10 }}>
-                    <Button type="primary" htmlType="submit">
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        loading={isSigningUp}
+                    >
                         가입하기
                     </Button>
                 </div>

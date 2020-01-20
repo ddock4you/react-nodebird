@@ -8,11 +8,12 @@ import {
     delay
 } from "redux-saga/effects";
 import {
-    LOG_IN,
     LOG_IN_SUCCESS,
     LOG_IN_FAILURE,
     LOG_IN_REQUEST,
-    SIGN_UP_REQUEST
+    SIGN_UP_REQUEST,
+    SIGN_UP_SUCCESS,
+    SIGN_UP_FAILURE
 } from "../reducers/user";
 
 function loginAPI() {
@@ -22,11 +23,10 @@ function loginAPI() {
 function* login() {
     try {
         // yield fork(logger); logger는 내 기록을 로깅하는 함수
-        // yield call(loginAPI);
-        yield delay(1000);
         yield put({
             // put은 dispatch 동일
-            type: LOG_IN_SUCCESS
+            type: LOG_IN_SUCCESS,
+            isSigningUp: true
         });
     } catch (e) {
         // loginAPI 실패
@@ -48,7 +48,9 @@ function signUpAPI() {
 function* signUp() {
     try {
         // yield fork(logger); logger는 내 기록을 로깅하는 함수
-        yield call(loginAPI);
+        // yield call(signUpAPI);
+        yield delay(2000);
+        throw new Error("에러러러러러");
         yield put({
             // put은 dispatch 동일
             type: SIGN_UP_SUCCESS
@@ -57,7 +59,8 @@ function* signUp() {
         // loginAPI 실패
         console.error(e);
         yield put({
-            type: SIGN_UP_FAILURE
+            type: SIGN_UP_FAILURE,
+            error: e
         });
     }
 }
