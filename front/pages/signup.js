@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import Router from "next/router";
 import { SIGN_UP_REQUEST } from "../reducers/user";
 
 export const useInput = (initValue = null) => {
@@ -12,7 +13,6 @@ export const useInput = (initValue = null) => {
 };
 
 const Signup = () => {
-    const { isSigningUp } = useSelector(state => state.user);
     const [id, setId] = useState("");
     const [nick, setNick] = useState("");
     const [password, setpassword] = useState("");
@@ -20,6 +20,14 @@ const Signup = () => {
     const [term, setTerm] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [termError, setTermError] = useState("");
+    const { isSigningUp, me } = useSelector(state => state.user);
+
+    useEffect(() => {
+        if (me) {
+            alert("로그인이 확인되어 메인 페이지로 이동합니다.");
+            Router.push("/");
+        }
+    }, [me && me.id]);
 
     // custom hook
     const dispatch = useDispatch();
