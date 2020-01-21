@@ -7,7 +7,6 @@ const Home = () => {
     const dispatch = useDispatch();
     const { me, isLoggedIn } = useSelector(state => state.user);
     const { mainPosts } = useSelector(state => state.post);
-    console.log(me);
     useEffect(() => {}, []);
 
     return (
