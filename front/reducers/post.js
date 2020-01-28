@@ -7,7 +7,8 @@ export const initialState = {
             },
             content: "첫 번째 게시글",
             img:
-                "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726"
+                "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726",
+            Comments: []
         }
     ], // 화면에 보일 포스트들
     imagePaths: [], // 미리보기 이미지 경로
@@ -136,7 +137,6 @@ const reducer = (state = initialState, action) => {
             const Comments = [...post.Comments, dummyComment];
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = { ...post, Comments };
-
             return {
                 ...state,
                 isAddingComment: false,

@@ -1,18 +1,18 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Form, Input, Button, Card, Icon, Avatar, List, Comment } from "antd";
+import { Card, Icon, Button, Avatar, Form, Input, List, Comment } from "antd";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_COMMENT_REQUEST } from "../reducers/post";
 
 const PostCard = ({ post }) => {
-    const [commentFormOpened, setCommentForOpened] = useState(false);
+    const [commentFormOpened, setCommentFormOpened] = useState(false);
     const [commentText, setCommentText] = useState("");
     const { me } = useSelector(state => state.user);
     const { commentAdded, isAddingComment } = useSelector(state => state.post);
     const dispatch = useDispatch();
 
     const onToggleComment = useCallback(() => {
-        setCommentForOpened(prev => !prev);
+        setCommentFormOpened(prev => !prev);
     }, []);
     // z
     const onSubmitComment = useCallback(
@@ -79,27 +79,25 @@ const PostCard = ({ post }) => {
                         >
                             삐약
                         </Button>
-                        <List
-                            header={`${
-                                post.Comments ? post.Comments.length : 0
-                            } 댓글`}
-                            itemLayout="horizontal"
-                            dataSourcce={post.Comments || []}
-                            renderItem={item => (
-                                <li>
-                                    <Comment
-                                        author={item.User.nickname}
-                                        avatar={
-                                            <Avatar>
-                                                {item.User.nickname}
-                                            </Avatar>
-                                        }
-                                        content={item.content}
-                                    />
-                                </li>
-                            )}
-                        />
                     </Form>
+                    <List
+                        header={`${
+                            post.Comments ? post.Comments.length : 0
+                        } 댓글`}
+                        itemLayout="horizontal"
+                        dataSource={post.Comments || []}
+                        renderItem={item => (
+                            <li>
+                                <Comment
+                                    author={item.User.nickname}
+                                    avatar={
+                                        <Avatar>{item.User.nickname[0]}</Avatar>
+                                    }
+                                    content={item.content}
+                                />
+                            </li>
+                        )}
+                    />
                 </>
             )}
         </div>

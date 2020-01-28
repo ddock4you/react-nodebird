@@ -43,9 +43,7 @@ const AppLayout = ({ children }) => {
                     {children}
                 </Col>
                 <Col xs={24} md={6}>
-                    <Link href="https://github.com/ddock4you">
-                        <a target="_blank">윤승현</a>
-                    </Link>
+                    <a href="href=https://github.com/ddock4you">윤승현</a>
                 </Col>
             </Row>
         </div>
