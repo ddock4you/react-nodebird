@@ -14,7 +14,7 @@ const PostCard = ({ post }) => {
     const onToggleComment = useCallback(() => {
         setCommentForOpened(prev => !prev);
     }, []);
-
+    // z
     const onSubmitComment = useCallback(
         e => {
             e.preventDefault();
