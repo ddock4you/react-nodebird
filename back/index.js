@@ -11,5 +11,5 @@ app.get("/about", (req, res) => {
 });
 
 app.listen(3065, () => {
-    console.log("server is running on http://localhost:8080");
+    console.log("server is running on http://localhost:3065");
 });
