@@ -19,12 +19,12 @@ import {
 import axios from "axios";
 
 function loginAPI() {
-    // 서버에 요청을 보내는 부분
+    return axios.post("/login", loginData);
 }
 
-function* login() {
+function* login(action) {
     try {
-        // yield fork(logger); logger는 내 기록을 로깅하는 함수
+        yield call(loginAPI, action.data);
         yield put({
             // put은 dispatch 동일
             type: LOG_IN_SUCCESS,

@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const db = require("../models");
+const passport = require("passport");
 
 const router = express.Router();
 
@@ -38,11 +39,34 @@ router.get("api/user/:id", (req, res) => {
     // :id -> req.params.id로 가져올 수 있음
 });
 
-router.post("/logout", (req, res) => {});
+router.post("/logout", (req, res) => {
+    // /api/user/logout
+});
 
-router.post("/login", (req, res) => {});
+router.post("/login", (req, res, next) => {
+    // /POST /api/user/login
+    passport.authenticate("local", (err, user, info) => {
+        if (err) {
+            console.error(err);
+            return next(err);
+        }
+        if (info) {
+            return res.status(401).send(info.reason);
+        }
+        return req.login(user, loginErr => {
+            if (loginErr) {
+                return next(loginErr);
+            }
+            const filteredUser = Object.assign({}, user);
+            delete filteredUser.password;
+            return res.json(filteredUser);
+        });
+    });
+});
 
-router.post("/:id/follow", (req, res) => {});
+router.post("/:id/follow", (req, res) => {
+    // /api/user/:id/follow
+});
 
 router.get("/:id/follow", (req, res) => {});
 
