@@ -18,17 +18,19 @@ import {
 } from "../reducers/user";
 import axios from "axios";
 
-function loginAPI() {
-    return axios.post("/login", loginData);
+axios.defaults.baseURL = "http://localhost:3065/api";
+
+function loginAPI(loginData) {
+    return axios.post("/user/login", loginData);
 }
 
 function* login(action) {
     try {
-        yield call(loginAPI, action.data);
+        const result = yield call(loginAPI, action.data);
         yield put({
             // put은 dispatch 동일
             type: LOG_IN_SUCCESS,
-            isSigningUp: true
+            data: result.data
         });
     } catch (e) {
         // loginAPI 실패
@@ -44,7 +46,7 @@ function* watchLogin() {
 }
 
 function signUpAPI(signUpdata) {
-    return axios.post("http://localhost:3065/api/user", signUpdata);
+    return axios.post("/user", signUpdata);
 }
 
 function* signUp(action) {

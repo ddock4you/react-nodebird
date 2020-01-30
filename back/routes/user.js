@@ -40,7 +40,9 @@ router.get("api/user/:id", (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-    // /api/user/logout
+    req.logout();
+    req.session.destroy();
+    res.send("logout 성공");
 });
 
 router.post("/login", (req, res, next) => {
@@ -57,11 +59,12 @@ router.post("/login", (req, res, next) => {
             if (loginErr) {
                 return next(loginErr);
             }
-            const filteredUser = Object.assign({}, user);
+            console.log("login success", req.user);
+            const filteredUser = Object.assign({}, user.toJSON());
             delete filteredUser.password;
             return res.json(filteredUser);
         });
-    });
+    })(req, res, next);
 });
 
 router.post("/:id/follow", (req, res) => {

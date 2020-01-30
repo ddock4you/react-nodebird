@@ -25,7 +25,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
     expressSassion({
         resave: false, // 매번 세션 강제 저장
-        saveUnitialized: false, // 빈 값도 저장
+        saveUninitialized: false, // 빈 값도 저장
         secret: process.env.COOKIE_SECRET,
         cookie: {
             httpOnly: true, // 자바스크립트로 cookie에 접근할 수 없다.
