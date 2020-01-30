@@ -5,7 +5,8 @@ import {
     takeLatest,
     put,
     take,
-    delay
+    delay,
+    call
 } from "redux-saga/effects";
 import {
     LOG_IN_SUCCESS,
@@ -15,6 +16,7 @@ import {
     SIGN_UP_SUCCESS,
     SIGN_UP_FAILURE
 } from "../reducers/user";
+import axios from "axios";
 
 function loginAPI() {
     // 서버에 요청을 보내는 부분
@@ -41,16 +43,15 @@ function* watchLogin() {
     yield takeEvery(LOG_IN_REQUEST, login);
 }
 
-function signUpAPI() {
-    // 서버에 요청을 보내는 부분
+function signUpAPI(signUpdata) {
+    return axios.post("http://localhost:3065/api/user", signUpdata);
 }
 
-function* signUp() {
+function* signUp(action) {
     try {
         // yield fork(logger); logger는 내 기록을 로깅하는 함수
         // yield call(signUpAPI);
-        yield delay(2000);
-        throw new Error("에러러러러러");
+        yield call(signUpAPI, action.data);
         yield put({
             // put은 dispatch 동일
             type: SIGN_UP_SUCCESS
