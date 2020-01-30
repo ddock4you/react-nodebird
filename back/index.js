@@ -4,6 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const expressSassion = require("express-session");
 const dotenv = require("dotenv");
+const passport = require("passport");
 
 const db = require("./models");
 const userAPIRouter = require("./routes/user");
@@ -30,6 +31,8 @@ app.use(
         }
     })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api/user", userAPIRouter);
 app.use("/api/post", postAPIRouter);
