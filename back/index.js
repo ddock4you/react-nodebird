@@ -20,7 +20,12 @@ passportConfig();
 app.use(morgan("dev"));
 app.use(express.json()); // json 형식의 본문을 처리
 app.use(express.urlencoded({ extended: true })); // form으로 넘어온 데이터를 처리
-app.use(cors());
+app.use(
+    cors({
+        origin: true,
+        credentials: true
+    })
+);
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
     expressSassion({
@@ -30,7 +35,8 @@ app.use(
         cookie: {
             httpOnly: true, // 자바스크립트로 cookie에 접근할 수 없다.
             secure: false // https를 쓸 때 true
-        }
+        },
+        name: "tewrgfs"
     })
 );
 app.use(passport.initialize());
