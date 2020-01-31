@@ -14,7 +14,13 @@ import {
     LOG_IN_REQUEST,
     SIGN_UP_REQUEST,
     SIGN_UP_SUCCESS,
-    SIGN_UP_FAILURE
+    SIGN_UP_FAILURE,
+    LOG_OUT_REQUEST,
+    LOG_OUT_SUCCESS,
+    LOG_OUT_FAILURE,
+    LOAD_USER_REQUEST,
+    LOAD_USER_SUCCESS,
+    LOAD_USER_FAILURE
 } from "../reducers/user";
 import axios from "axios";
 
@@ -26,7 +32,7 @@ function loginAPI(loginData) {
     });
 }
 
-function* login(action) {
+function* logIn(action) {
     try {
         const result = yield call(loginAPI, action.data);
         yield put({
@@ -44,7 +50,7 @@ function* login(action) {
 }
 
 function* watchLogin() {
-    yield takeEvery(LOG_IN_REQUEST, login);
+    yield takeEvery(LOG_IN_REQUEST, logIn);
 }
 
 function signUpAPI(signUpdata) {
@@ -74,6 +80,65 @@ function* watchSignUp() {
     yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
+function logOutAPI() {
+    return axios.post(
+        "/user/logout",
+        {},
+        {
+            withCredentials: true
+        }
+    );
+}
+
+function* logOut() {
+    try {
+        yield call(logOutAPI);
+        yield put({
+            // put은 dispatch 동일
+            type: LOG_OUT_SUCCESS
+        });
+    } catch (e) {
+        // loginAPI 실패
+        console.error(e);
+        yield put({
+            type: LOG_OUT_FAILURE,
+            error: e
+        });
+    }
+}
+
+function* watchLogOut() {
+    yield takeEvery(LOG_OUT_REQUEST, logOut);
+}
+
+function loadUserAPI(loadUserdata) {
+    return axios.get("/user/", {
+        withCredentials: true
+    });
+}
+
+function* loadUser() {
+    try {
+        const result = yield call(loadUserAPI);
+        yield put({
+            // put은 dispatch 동일
+            type: LOAD_USER_SUCCESS,
+            data: result.data
+        });
+    } catch (e) {
+        // loginAPI 실패
+        console.error(e);
+        yield put({
+            type: LOAD_USER_FAILURE,
+            error: e
+        });
+    }
+}
+
+function* watchLoadUser() {
+    yield takeEvery(LOAD_USER_REQUEST, loadUser);
+}
+
 export default function* userSaga() {
-    yield all([watchLogin(), watchSignUp()]);
+    yield all([watchLogin(), watchSignUp(), watchLogOut(), watchLoadUser()]);
 }
