@@ -24,8 +24,6 @@ import {
 } from "../reducers/user";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3065/api";
-
 function loginAPI(loginData) {
     return axios.post("/user/login", loginData, {
         withCredentials: true
