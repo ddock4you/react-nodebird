@@ -4,7 +4,7 @@ const db = require("../models");
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
-    // POST /api/post
+    // POST /api/post /
     try {
         const hashtags = req.body.content.match(/#[^\s]+/g);
         const newPost = await db.Post.create({
