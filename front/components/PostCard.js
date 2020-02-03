@@ -65,7 +65,10 @@ const PostCard = ({ post }) => {
                             {post.content.split(/(#[^\s]+)/g).map(v => {
                                 if (v.match(/#[^\s]+/)) {
                                     return (
-                                        <Link href={"/hashtag"} key={v}>
+                                        <Link
+                                            href={`/hashtag/${v.slice(1)}`}
+                                            key={v}
+                                        >
                                             <a>{v}</a>
                                         </Link>
                                     );
@@ -124,7 +127,7 @@ PostCard.propTypes = {
         content: PropTypes.string,
         img: PropTypes.string,
         createdAt: PropTypes.object
-    })
+    }).isRequired
 };
 
 export default PostCard;
