@@ -15,14 +15,12 @@ router.post("/", async (req, res, next) => {
             const result = await Promise.all(
                 hashtags.map(tag =>
                     db.Hashtag.findOrCreate({
-                        where: {
-                            name: tag.slice(1).toLowerCase()
-                        }
+                        where: { name: tag.slice(1).toLowerCase() }
                     })
                 )
             );
             console.log(result);
-            await newPost.addHashTags(result.map(r => r[0]));
+            await newPost.addHashtags(result.map(r => r[0]));
         }
         // 게시글 받아오기 위한 방법1
         // const User = await newPost.getUser();

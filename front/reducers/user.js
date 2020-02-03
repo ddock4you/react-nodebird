@@ -1,14 +1,4 @@
 // store, 초기값
-
-const dummyUser = {
-    nickname: "팥우유",
-    Post: [],
-    Followings: [],
-    Followers: [],
-    signUpData: [],
-    id: 1
-};
-
 export const initialState = {
     isLoggedIn: false, // 로그인 여부
     isLoggingOut: false, // 로그아웃 시도중
@@ -113,22 +103,6 @@ const reducer = (state = initialState, action) => {
                 me: null
             };
         }
-        case LOAD_USER_REQUEST: {
-            return {
-                ...state
-            };
-        }
-        case LOAD_USER_SUCCESS: {
-            return {
-                ...state,
-                me: action.data
-            };
-        }
-        case LOAD_USER_FAILURE: {
-            return {
-                ...state
-            };
-        }
         case SIGN_UP_REQUEST: {
             return {
                 ...state,
@@ -148,6 +122,28 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isSigningUp: false,
                 signUpErrorReason: action.error
+            };
+        }
+        case LOAD_USER_REQUEST: {
+            return {
+                ...state
+            };
+        }
+        case LOAD_USER_SUCCESS: {
+            if (action.me) {
+                return {
+                    ...state,
+                    me: action.data
+                };
+            }
+            return {
+                ...state,
+                userInfo: action.data
+            };
+        }
+        case LOAD_USER_FAILURE: {
+            return {
+                ...state
             };
         }
         default: {

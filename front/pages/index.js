@@ -8,7 +8,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const { me } = useSelector(state => state.user);
     const { mainPosts } = useSelector(state => state.post);
-
+    // console.log(mainPosts);
     useEffect(() => {
         dispatch({
             type: LOAD_MAIN_POSTS_REQUEST
@@ -17,14 +17,9 @@ const Home = () => {
 
     return (
         <div>
-            {me ? (
-                <div>로그인 했습니다. {me.nickname}</div>
-            ) : (
-                <div>로그아웃 했습니다.</div>
-            )}
             {me && <PostForm />}
             {mainPosts.map(c => {
-                return <PostCard key={c} post={c} />;
+                return <PostCard key={c.id} post={c} />;
             })}
         </div>
     );

@@ -32,12 +32,22 @@ app.prepare().then(() => {
         })
     );
 
+    server.get("/hashtag/:tag", (req, res) => {
+        return app.render(req, res, "/hashtag", {
+            tag: req.params.tag
+        });
+    });
+
+    server.get("/user/:id", (req, res) => {
+        return app.render(req, res, "/user", { id: req.params.id });
+    });
+
     // 모든 요청을 여기서 처리한다.
     server.get("*", (req, res) => {
         return handle(req, res);
     });
 
     server.listen(3060, () => {
-        console.log("next+express running on port 3060");
+        console.log("next + express running on port 3060");
     });
 });

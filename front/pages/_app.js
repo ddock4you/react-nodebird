@@ -1,15 +1,17 @@
 import React from "react";
 import Head from "next/head";
-import AppLayout from "../components/AppLayout";
 import Proptypes from "prop-types";
 import withRedux from "next-redux-wrapper";
 import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import reducer from "../reducers";
 import createSagaMiddleware from "redux-saga";
+
+import AppLayout from "../components/AppLayout";
+import reducer from "../reducers";
 import rootSaga from "../sagas";
 
-const Nodebird = ({ Component, store }) => {
+const Nodebird = ({ Component, store, pageProps }) => {
+    // console.log(pageProps);
     return (
         <Provider store={store}>
             <Head>
@@ -20,7 +22,7 @@ const Nodebird = ({ Component, store }) => {
                 ></link>
             </Head>
             <AppLayout>
-                <Component />
+                <Component {...pageProps} />
             </AppLayout>
         </Provider>
     );
@@ -28,7 +30,25 @@ const Nodebird = ({ Component, store }) => {
 
 Nodebird.propTypes = {
     Component: Proptypes.elementType.isRequired,
-    store: Proptypes.object.isRequired
+    store: Proptypes.object.isRequired,
+    pageProps: Proptypes.object.isRequired
+};
+// getInitialProps
+// next에서 지원하는 react의 라이프 사이클같은 기능
+// 서버에서 받은 동적인 데이터를 프론트에서 사용할 수 있음.
+// react componentDidMount보다 더 빨리 실행됨.
+// 서버에서도 실행됨.
+// 서버 사이드 렌더링 작업을 할 때 용이함.
+Nodebird.getInitialProps = async context => {
+    //context -> next에서 내려주는 것
+    // console.log(context);
+    const { ctx, Component } = context;
+    let pageProps = {};
+    if (Component.getInitialProps) {
+        // Component에 getInitialProps가 있을 경우 실행
+        pageProps = await Component.getInitialProps(ctx); // Component 컴포넌트에 props 전달(실행)
+    }
+    return { pageProps };
 };
 
 const configStore = (initialState, options) => {
