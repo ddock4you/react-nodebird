@@ -1,7 +1,7 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { Form, Input, Button, Card, Icon, Avatar } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_POST_REQUEST } from "../reducers/post";
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from "../reducers/post";
 
 const PostForm = () => {
     const dispatch = useDispatch();
@@ -9,6 +9,7 @@ const PostForm = () => {
     const { imagePaths, isAddingPost, postAdded } = useSelector(
         state => state.post
     );
+    const imageInput = useRef();
 
     useEffect(() => {
         setText("");
@@ -30,6 +31,23 @@ const PostForm = () => {
     const onChangeText = useCallback(e => {
         setText(e.target.value);
     }, []);
+
+    const onChangeImages = usecallback(e => {
+        console.log(e.target.files);
+        const imageFormData = new FormData();
+        [].forEach.call(e.target.files, f => {
+            imageFormData.append("image", f);
+        });
+        dispatch({
+            type: UPLOAD_IMAGES_REQUEST,
+            data: imageFormData
+        });
+    }, []);
+
+    const onClickImageUpload = useCallback(() => {
+        imageInput.current.click(); // imageInput을 클릭한 효과
+    }, [imageInput.current]);
+
     return (
         <Form
             encType="multipart/form-data"
@@ -43,8 +61,14 @@ const PostForm = () => {
                 onChange={onChangeText}
             />
             <div>
-                <Input type="file" multiple hidden />
-                <Button>이미지 업로드</Button>
+                <Input
+                    type="file"
+                    multiple
+                    hidden
+                    ref={imageInput}
+                    onChange={onChangeImages}
+                />
+                <Button onClick={onClickImageUpload}>이미지 업로드</Button>
                 <Button
                     type="primary"
                     style={{ float: "right" }}
