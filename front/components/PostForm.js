@@ -32,7 +32,7 @@ const PostForm = () => {
         setText(e.target.value);
     }, []);
 
-    const onChangeImages = usecallback(e => {
+    const onChangeImages = useCallback(e => {
         console.log(e.target.files);
         const imageFormData = new FormData();
         [].forEach.call(e.target.files, f => {
@@ -45,7 +45,7 @@ const PostForm = () => {
     }, []);
 
     const onClickImageUpload = useCallback(() => {
-        imageInput.current.click(); // imageInput을 클릭한 효과
+        imageInput.current.click();
     }, [imageInput.current]);
 
     return (
@@ -61,7 +61,7 @@ const PostForm = () => {
                 onChange={onChangeText}
             />
             <div>
-                <Input
+                <input
                     type="file"
                     multiple
                     hidden
@@ -80,18 +80,16 @@ const PostForm = () => {
             </div>
             <div>
                 {imagePaths.map(v => {
-                    return (
-                        <div key={v} style={{ display: "inline-block" }}>
-                            <img
-                                src={"http://localhost:3000/" + v}
-                                style={{ width: "200px" }}
-                                alt={v}
-                            />
-                            <div>
-                                <Button>제거</Button>
-                            </div>
+                    <div key={v} style={{ display: "inline-block" }}>
+                        <img
+                            src={`http://localhost:3065/${v}`}
+                            style={{ width: "200px" }}
+                            alt={v}
+                        />
+                        <div>
+                            <Button>제거</Button>
                         </div>
-                    );
+                    </div>;
                 })}
             </div>
         </Form>
