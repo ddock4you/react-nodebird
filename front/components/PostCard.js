@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react";
-import Link from "next/link";
 import { Card, Icon, Button, Avatar, Form, Input, List, Comment } from "antd";
+import Link from "next/link";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_COMMENT_REQUEST } from "../reducers/post";
+
+import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST } from "../reducers/post";
 
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -14,6 +15,12 @@ const PostCard = ({ post }) => {
 
     const onToggleComment = useCallback(() => {
         setCommentFormOpened(prev => !prev);
+        if (!commentFormOpened) {
+            dispatch({
+                type: LOAD_COMMENTS_REQUEST,
+                data: post.id
+            });
+        }
     }, []);
 
     const onSubmitComment = useCallback(
@@ -25,11 +32,12 @@ const PostCard = ({ post }) => {
             return dispatch({
                 type: ADD_COMMENT_REQUEST,
                 data: {
-                    postId: post.id
+                    postId: post.id,
+                    content: commentText
                 }
             });
         },
-        [me && me.id]
+        [me && me.id, commentText]
     );
 
     useEffect(() => {
@@ -58,7 +66,20 @@ const PostCard = ({ post }) => {
                 extra={<Button>팔로우</Button>}
             >
                 <Card.Meta
-                    avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+                    avatar={
+                        // 동적인 라우터일 땐 객체 방식으로 주소를 입력
+                        <Link
+                            href={{
+                                pathname: "/user/",
+                                query: { id: post.User.id }
+                            }}
+                            as={`/user/${post.User.id}`}
+                        >
+                            <a>
+                                <Avatar>{post.User.nickname[0]}</Avatar>
+                            </a>
+                        </Link>
+                    }
                     title={post.User.nickname}
                     description={
                         <div>
@@ -66,7 +87,11 @@ const PostCard = ({ post }) => {
                                 if (v.match(/#[^\s]+/)) {
                                     return (
                                         <Link
-                                            href={`/hashtag/${v.slice(1)}`}
+                                            href={{
+                                                pathname: "/hashtag",
+                                                query: { tag: v.slice(1) }
+                                            }}
+                                            as={`/hashtag/${v.slice(1)}`}
                                             key={v}
                                         >
                                             <a>{v}</a>
@@ -108,7 +133,19 @@ const PostCard = ({ post }) => {
                                 <Comment
                                     author={item.User.nickname}
                                     avatar={
-                                        <Avatar>{item.User.nickname[0]}</Avatar>
+                                        <Link
+                                            href={{
+                                                pathname: "/user/",
+                                                query: { id: post.User.id }
+                                            }}
+                                            as={`/user/${post.User.id}`}
+                                        >
+                                            <a>
+                                                <Avatar>
+                                                    {item.User.nickname[0]}
+                                                </Avatar>
+                                            </a>
+                                        </Link>
                                     }
                                     content={item.content}
                                 />
@@ -126,7 +163,7 @@ PostCard.propTypes = {
         User: PropTypes.object,
         content: PropTypes.string,
         img: PropTypes.string,
-        createdAt: PropTypes.object
+        createdAt: PropTypes.string
     }).isRequired
 };
 

@@ -8,7 +8,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const { me } = useSelector(state => state.user);
     const { mainPosts } = useSelector(state => state.post);
-    console.log(mainPosts);
+    // console.log(mainPosts);
     useEffect(() => {
         dispatch({
             type: LOAD_MAIN_POSTS_REQUEST

@@ -42,7 +42,7 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-router.get("api/user/:id", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     // 남의 정보 가져오는 것
     // :id -> req.params.id로 가져올 수 있음
     try {
@@ -75,7 +75,7 @@ router.get("api/user/:id", async (req, res, next) => {
             ? jsonUser.Followings.length
             : 0;
         jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length : 0;
-        req.json(user);
+        res.json(user);
     } catch (e) {
         console.error(e);
         next(e);

@@ -110,14 +110,16 @@ function* watchLogOut() {
 }
 
 function loadUserAPI(userId) {
-    return axios.get(userId ? `/user${userId}` : "/user/", {
+    return axios.get(userId ? `/user/${userId}` : "/user/", {
         withCredentials: true
     });
 }
 
 function* loadUser(action) {
+    console.log(action);
     try {
         const result = yield call(loadUserAPI, action.data);
+        console.log("loadUser action data confirm", action.data);
         yield put({
             // put은 dispatch 동일
             type: LOAD_USER_SUCCESS,
@@ -126,7 +128,7 @@ function* loadUser(action) {
         });
     } catch (e) {
         // loginAPI 실패
-        console.error(e);
+        console.log(e);
         yield put({
             type: LOAD_USER_FAILURE,
             error: e

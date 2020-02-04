@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { LOAD_USER_POSTS_REQUEST } from "../reducers/post";
 import { Avatar, Card } from "antd";
 import { LOAD_USER_REQUEST } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import PostCard from "../components/PostCard";
 
-const User = id => {
+const User = ({ id }) => {
     const dispatch = useDispatch();
     const { mainPosts } = useSelector(state => state.post);
-    const { userInfo } = useSelector(state => state.user);
+    const { me, userInfo } = useSelector(state => state.user);
 
     useEffect(() => {
         dispatch({
@@ -19,6 +21,7 @@ const User = id => {
             data: id
         });
     }, []);
+    console.log(me, userInfo);
     return (
         <div>
             {userInfo ? (
@@ -27,24 +30,24 @@ const User = id => {
                         <div key="twit">
                             짹짹
                             <br />
-                            {me.Posts.length}
+                            {userInfo.Posts.length}
                         </div>,
                         <div key="following">
                             팔로잉
                             <br />
-                            {me.Followings.length}
+                            {userInfo.Followings.length}
                         </div>,
                         <div key="follower">
                             팔로우
                             <br />
-                            {me.Followers.length}
+                            {userInfo.Followers.length}
                         </div>
                     ]}
                 >
                     <Card.Meta
                         avatar={<Avatar>{userInfo.nickname[0]}</Avatar>}
                         title={userInfo.nickname}
-                    />{" "}
+                    />
                 </Card>
             ) : null}
             {mainPosts.map(c => (
@@ -54,7 +57,7 @@ const User = id => {
     );
 };
 
-User.PropTypes = {
+User.propTypes = {
     id: PropTypes.number.isRequired
 };
 
