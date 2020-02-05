@@ -77,7 +77,7 @@ function loadHashtagPostsAPI(tag) {
 }
 
 function* loadHashtagPosts(action) {
-    console.log(action);
+    // console.log(action);
     try {
         const result = yield call(loadHashtagPostsAPI, action.data);
         yield put({
@@ -181,6 +181,7 @@ function* watchLoadComments() {
 }
 
 function* uploadImagesAPI(formData) {
+    console.log(formData);
     return axios.post(`/post/images`, formData, {
         withCredentials: true
     });
@@ -188,7 +189,9 @@ function* uploadImagesAPI(formData) {
 
 function* uploadImages(action) {
     try {
+        console.log(action);
         const result = yield call(uploadImagesAPI, action.data);
+        // console.log(result.data);
         yield put({
             type: UPLOAD_IMAGES_SUCCESS,
             data: result.data

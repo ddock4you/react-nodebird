@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Menu, Input, Button, Row, Col, Card, Avatar, Form } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import LoginForm from "./LoginForm";
-import UserProfile from "./UserProfie";
+import UserProfile from "./UserProfile";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const AppLayout = ({ children }) => {
@@ -12,13 +12,13 @@ const AppLayout = ({ children }) => {
     // console.log(me);
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (!me) {
-    //         dispatch({
-    //             type: LOAD_USER_REQUEST
-    //         });
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (!me) {
+            dispatch({
+                type: LOAD_USER_REQUEST
+            });
+        }
+    }, []);
 
     return (
         <div>

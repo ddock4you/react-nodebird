@@ -55,7 +55,7 @@ export const REMOVE_POST_REQUEST = "REMOVE_POST_REQUEST";
 export const REMOVE_POST_SUCCESS = "REMOVE_POST_SUCCESS";
 export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE";
 
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case UPLOAD_IMAGES_REQUEST: {
             return {
@@ -174,4 +174,4 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-export default reducer;
+// export default reducer;

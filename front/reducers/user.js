@@ -66,18 +66,19 @@ export const logoutAction = {
 };
 
 // 리듀서 -> Action의 결과로 state를 어떻게 바꿀지 정의
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case LOG_IN_REQUEST: {
             return {
                 ...state,
+                isLoggedIn: true,
                 logInErrorReason: ""
             };
         }
         case LOG_IN_SUCCESS: {
             return {
                 ...state,
-                isLoggedIn: true,
+                isLoggedIn: false,
                 me: action.data,
                 isLoading: false
             };
@@ -107,7 +108,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isSigningUp: true,
-                isSignedUp: false
+                isSignedUp: false,
+                signUpErrorReason: ""
             };
         }
         case SIGN_UP_SUCCESS: {
@@ -154,4 +156,4 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-export default reducer;
+// export default reducer;

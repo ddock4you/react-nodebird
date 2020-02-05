@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
 
 const UserProfile = () => {
-    const dispatch = useDispatch();
     const { me } = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     const onLogout = useCallback(() => {
         //useCallback을 쓰는 이유는 자식 컴포넌트에 props를 전달하기 때문에
         dispatch({
-            type: "LOG_OUT_REQUEST"
+            type: LOG_OUT_REQUEST
         });
     }, []);
 
