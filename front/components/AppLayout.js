@@ -9,7 +9,6 @@ import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const AppLayout = ({ children }) => {
     const { isLoggedIn, me } = useSelector(state => state.user);
-    console.log(me);
     const dispatch = useDispatch();
 
     useEffect(() => {

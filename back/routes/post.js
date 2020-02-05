@@ -21,7 +21,11 @@ const upload = multer({
     limits: { fileSize: 20 * 1024 * 1024 }
 });
 
-router.post("/", isLoggedIn, async (req, res, next) => {
+// multer에서 처리해줌
+// formData 파일 -> req.file(s)
+// formData 일반값(텍스트) -> req.body
+
+router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
     // POST /api/post /
     try {
         const hashtags = req.body.content.match(/#[^\s]+/g);
@@ -40,6 +44,24 @@ router.post("/", isLoggedIn, async (req, res, next) => {
             console.log(result);
             await newPost.addHashtags(result.map(r => r[0]));
         }
+        if (req.body.image) {
+            // 이미지 주소를 여러개 올리면 image: [주소1, 주소2]
+            if (Array.isArray(req.body.image)) {
+                const images = await Promise.all(
+                    req.body.image.map(image => {
+                        return db.Image.create({ src: image });
+                    })
+                );
+                await newPost.addImages(images);
+            } else {
+                //이미지를 하나만 올리면 image: 주소1
+                const image = await db.Image.create({
+                    src: req.body.image
+                });
+                await newPost.addImage(image);
+            }
+        }
+
         // 게시글 받아오기 위한 방법1
         // const User = await newPost.getUser();
         // newPost.User = User;
@@ -51,6 +73,9 @@ router.post("/", isLoggedIn, async (req, res, next) => {
             include: [
                 {
                     model: db.User
+                },
+                {
+                    model: db.Image
                 }
             ]
         });
