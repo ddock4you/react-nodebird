@@ -153,7 +153,7 @@ function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
-function* loadCommentsAPI(postId) {
+function loadCommentsAPI(postId) {
     return axios.get(`/post/${postId}/comments`);
 }
 
@@ -180,8 +180,7 @@ function* watchLoadComments() {
     yield takeLatest(LOAD_COMMENTS_REQUEST, loadComments);
 }
 
-function* uploadImagesAPI(formData) {
-    console.log(formData);
+function uploadImagesAPI(formData) {
     return axios.post(`/post/images`, formData, {
         withCredentials: true
     });
@@ -189,9 +188,9 @@ function* uploadImagesAPI(formData) {
 
 function* uploadImages(action) {
     try {
-        console.log(action);
+        // console.log(action);
         const result = yield call(uploadImagesAPI, action.data);
-        // console.log(result.data);
+        console.log("result iamge", result.data);
         yield put({
             type: UPLOAD_IMAGES_SUCCESS,
             data: result.data

@@ -79,7 +79,7 @@ const PostForm = () => {
                 </Button>
             </div>
             <div>
-                {imagePaths.map(v => {
+                {imagePaths.map(v => (
                     <div key={v} style={{ display: "inline-block" }}>
                         <img
                             src={`http://localhost:3065/${v}`}
@@ -89,8 +89,8 @@ const PostForm = () => {
                         <div>
                             <Button>제거</Button>
                         </div>
-                    </div>;
-                })}
+                    </div>
+                ))}
             </div>
         </Form>
     );

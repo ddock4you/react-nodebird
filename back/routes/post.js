@@ -7,6 +7,20 @@ const { isLoggedIn } = require("./middleware");
 
 const router = express.Router();
 
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            done(null, "uploads");
+        },
+        filename(req, file, done) {
+            const ext = path.extname(file.originalname);
+            const basename = path.basename(file.originalname, ext); // 제로초.png, ext===.png, basename===제로초
+            done(null, basename + new Date().valueOf() + ext);
+        }
+    }),
+    limits: { fileSize: 20 * 1024 * 1024 }
+});
+
 router.post("/", isLoggedIn, async (req, res, next) => {
     // POST /api/post /
     try {
@@ -45,20 +59,6 @@ router.post("/", isLoggedIn, async (req, res, next) => {
         console.error(e);
         next(e);
     }
-});
-
-const upload = multer({
-    storage: multer.diskStorage({
-        destination(req, file, done) {
-            done(null, "uploads");
-        },
-        filename(req, file, done) {
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext); //팥우유.png, ext === png, basename === 팥우유
-            done(null, basename + new Date().valueOf() + ext);
-        }
-    }),
-    limits: { fileSize: 20 * 1024 * 1024 }
 });
 
 router.post("/images", upload.array("image"), (req, res) => {
