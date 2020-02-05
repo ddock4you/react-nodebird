@@ -68,6 +68,14 @@ export default (state = initialState, action) => {
                 imagePaths: [...state.imagePaths, ...action.data]
             };
         }
+        case REMOVE_IMAGE: {
+            return {
+                ...state,
+                imagePaths: state.imagePaths.filter(
+                    (v, i) => i !== action.index
+                )
+            };
+        }
         case UPLOAD_IMAGES_FAILURE: {
             return {
                 ...state
