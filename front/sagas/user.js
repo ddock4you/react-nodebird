@@ -128,7 +128,7 @@ function* loadUser(action) {
         });
     } catch (e) {
         // loginAPI 실패
-        console.log(e);
+        console.log("load user failure error", e);
         yield put({
             type: LOAD_USER_FAILURE,
             error: e

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/", isLoggedIn, (req, res) => {
     const user = Object.assign({}, req.user.toJSON());
-    console.log(user);
+    // console.log(user);
     delete user.password;
     return res.json(user);
 });
