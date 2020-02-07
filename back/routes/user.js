@@ -172,7 +172,7 @@ router.delete("/:id/follower", isLoggedIn, async (req, res, next) => {
             where: { id: req.user.id }
         });
         await me.removeFollower(req.params.id);
-        res.send(req.params.id); //send로 보내니 즉각 반응함. json과의 차이는??
+        res.send(req.params.id); //send로 보내니 즉각 반응함. jsonㅁ과의 차이는??
     } catch (e) {
         console.error(e);
         next(e);
