@@ -138,9 +138,7 @@ const PostCard = ({ post }) => {
                             언팔로우
                         </Button>
                     ) : (
-                        <Button onClick={onFollow(post.User.id)}>
-                            >팔로우
-                        </Button>
+                        <Button onClick={onFollow(post.User.id)}>팔로우</Button>
                     )
                 }
             >
