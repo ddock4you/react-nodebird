@@ -300,11 +300,12 @@ function* retweet(action) {
             data: result.data
         });
     } catch (e) {
-        console.log(e);
+        console.dir(e);
         yield put({
             type: RETWEET_FAILURE,
             error: e
         });
+        alert(e.response.data);
     }
 }
 

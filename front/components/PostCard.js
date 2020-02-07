@@ -88,15 +88,7 @@ const PostCard = ({ post }) => {
         <div>
             <Card
                 key={+post.createdAt}
-                cover={
-                    post.Images[0] && (
-                        // <img
-                        //     alt="example"
-                        //     src={`http://localhost:3065/${post.Images[0].src}`}
-                        // />
-                        <PostImages images={post.Images} />
-                    )
-                }
+                cover={post.Images[0] && <PostImages images={post.Images} />}
                 actions={[
                     <Icon type="retweet" key="retweet" onClick={onRetweet} />,
                     <Icon
@@ -124,7 +116,7 @@ const PostCard = ({ post }) => {
                     <Card
                         cover={
                             post.Retweet.Images[0] && (
-                                <PostImages images={post.REtweet.Images} />
+                                <PostImages images={post.Retweet.Images} />
                             )
                         }
                     >
