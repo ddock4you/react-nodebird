@@ -8,9 +8,11 @@ import {
     ADD_COMMENT_REQUEST,
     LOAD_COMMENTS_REQUEST,
     LIKE_POST_REQUEST,
-    UNLIKE_POST_REQUEST
+    UNLIKE_POST_REQUEST,
+    RETWEET_REQUEST
 } from "../reducers/post";
 import PostImages from "../components/PostImages";
+import PostCardContent from "./PostCardContent";
 
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -74,6 +76,14 @@ const PostCard = ({ post }) => {
         }
     }, [me && me.id, post && post.id, liked]);
 
+    const onRetweet = useCallback(() => {
+        if (!me) return alert("로그인이 필요합니다.");
+        return dispatch({
+            type: RETWEET_REQUEST,
+            data: post.id
+        });
+    }, [me, post.id]);
+
     return (
         <div>
             <Card
@@ -88,7 +98,7 @@ const PostCard = ({ post }) => {
                     )
                 }
                 actions={[
-                    <Icon type="retweet" key="retweet" />,
+                    <Icon type="retweet" key="retweet" onClick={onRetweet} />,
                     <Icon
                         type="heart"
                         key="heart"
@@ -103,46 +113,68 @@ const PostCard = ({ post }) => {
                     />,
                     <Icon type="ellipsis" key="ellipsis" />
                 ]}
+                title={
+                    post.RetweetId
+                        ? `${post.User.nickname}님이 리트윗하셨습니다.`
+                        : null
+                }
                 extra={<Button>팔로우</Button>}
             >
-                <Card.Meta
-                    avatar={
-                        // 동적인 라우터일 땐 객체 방식으로 주소를 입력
-                        <Link
-                            href={{
-                                pathname: "/user/",
-                                query: { id: post.User.id }
-                            }}
-                            as={`/user/${post.User.id}`}
-                        >
-                            <a>
-                                <Avatar>{post.User.nickname[0]}</Avatar>
-                            </a>
-                        </Link>
-                    }
-                    title={post.User.nickname}
-                    description={
-                        <div>
-                            {post.content.split(/(#[^\s]+)/g).map(v => {
-                                if (v.match(/#[^\s]+/)) {
-                                    return (
-                                        <Link
-                                            href={{
-                                                pathname: "/hashtag",
-                                                query: { tag: v.slice(1) }
-                                            }}
-                                            as={`/hashtag/${v.slice(1)}`}
-                                            key={v}
-                                        >
-                                            <a>{v}</a>
-                                        </Link>
-                                    );
-                                }
-                                return v;
-                            })}
-                        </div>
-                    }
-                />
+                {post.RetweetId && post.Retweet ? (
+                    <Card
+                        cover={
+                            post.Retweet.Images[0] && (
+                                <PostImages images={post.REtweet.Images} />
+                            )
+                        }
+                    >
+                        <Card.Meta
+                            avatar={
+                                // 동적인 라우터일 땐 객체 방식으로 주소를 입력
+                                <Link
+                                    href={{
+                                        pathname: "/user",
+                                        query: { id: post.Retweet.User.id }
+                                    }}
+                                    as={`/user/${post.Retweet.User.id}`}
+                                >
+                                    <a>
+                                        <Avatar>
+                                            {post.Retweet.User.nickname[0]}
+                                        </Avatar>
+                                    </a>
+                                </Link>
+                            }
+                            title={post.Retweet.User.nickname}
+                            description={
+                                <PostCardContent
+                                    postData={post.Retweet.content}
+                                />
+                            }
+                        />
+                    </Card>
+                ) : (
+                    <Card.Meta
+                        avatar={
+                            // 동적인 라우터일 땐 객체 방식으로 주소를 입력
+                            <Link
+                                href={{
+                                    pathname: "/user",
+                                    query: { id: post.User.id }
+                                }}
+                                as={`/user/${post.User.id}`}
+                            >
+                                <a>
+                                    <Avatar>{post.User.nickname[0]}</Avatar>
+                                </a>
+                            </Link>
+                        }
+                        title={post.User.nickname}
+                        description={
+                            <PostCardContent postData={post.content} />
+                        }
+                    />
+                )}
             </Card>
             {commentFormOpened && (
                 <>
