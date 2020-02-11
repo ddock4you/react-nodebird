@@ -41,7 +41,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
                     })
                 )
             );
-            console.log(result);
+            // console.log(result);
             await newPost.addHashtags(result.map(r => r[0]));
         }
         if (req.body.image) {
