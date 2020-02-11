@@ -6,10 +6,12 @@ import withReduxSaga from 'next-redux-saga';
 import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
+import axios from 'axios';
 
 import AppLayout from "../components/AppLayout";
 import reducer from "../reducers";
 import rootSaga from "../sagas";
+import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const Nodebird = ({ Component, store, pageProps }) => {
     // console.log(pageProps);
@@ -56,6 +58,23 @@ Nodebird.getInitialProps = async context => {
     // console.log(context);
     const { ctx, Component } = context;
     let pageProps = {};
+    // store 안에 있는 로그인 정보를 getState 메서드를 통해 가져올 수 있음.
+    const state = ctx.store.getState();
+    // 클라이언트 -> 백엔드 서버간 통신할 땐 브라우저가 쿠키를 챙겨주나 
+    // 서버와 서버간 통신일 땐 ex)프론트 서버(서버사이드 렌더링) - 백엔드 서버
+    // 개발자가 직접 쿠키를 전달해줘야 한다.
+    const cookie = ctx.isServer ? ctx.req.headers.cookie : '';
+    // console.log('쿠키', cookie);
+    // axios를 통해 프론트 서버에서 백엔드 서버로 쿠키를 직접 전달
+    // 
+    if (ctx.isServer && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    }
+    if(!state.user.me) {
+        ctx.store.dispatch({
+            type: LOAD_USER_REQUEST
+        });
+    }
     if (Component.getInitialProps) {
         // Component에 getInitialProps가 있을 경우 실행
         pageProps = await Component.getInitialProps(ctx); // Component 컴포넌트에 props 전달(실행)
