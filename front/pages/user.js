@@ -6,21 +6,10 @@ import { LOAD_USER_REQUEST } from "../reducers/user";
 import { LOAD_USER_POSTS_REQUEST } from "../reducers/post";
 import PostCard from "../components/PostCard";
 
-const User = ({ id }) => {
-    const dispatch = useDispatch();
+const User = () => {
     const { mainPosts } = useSelector(state => state.post);
     const { me, userInfo } = useSelector(state => state.user);
 
-    useEffect(() => {
-        dispatch({
-            type: LOAD_USER_REQUEST,
-            data: id
-        });
-        dispatch({
-            type: LOAD_USER_POSTS_REQUEST,
-            data: id
-        });
-    }, []);
     console.log(me, userInfo);
     return (
         <div>
@@ -64,7 +53,16 @@ User.propTypes = {
 User.getInitialProps = async context => {
     console.log("hashag getInitialProps", context.query.id);
     // props로도 전달 가능!
-    return { id: parseInt(context.query.id, 10) };
+    const id = parseInt(context.query.id, 10);
+    context.store.dispatch({
+        type: LOAD_USER_REQUEST,
+            data: id
+    });
+    context.store.dispatch({
+        type: LOAD_USER_POSTS_REQUEST,
+            data: id
+    });
+    return { id };
 };
 
 export default User;
