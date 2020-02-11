@@ -5,15 +5,9 @@ import PostCard from "../components/PostCard";
 import { LOAD_MAIN_POSTS_REQUEST } from "../reducers/post";
 
 const Home = () => {
-    const dispatch = useDispatch();
     const { me } = useSelector(state => state.user);
     const { mainPosts } = useSelector(state => state.post);
-    // console.log(mainPosts);
-    useEffect(() => {
-        dispatch({
-            type: LOAD_MAIN_POSTS_REQUEST
-        });
-    }, []);
+
 
     return (
         <div>
@@ -24,5 +18,12 @@ const Home = () => {
         </div>
     );
 };
+
+Home.getInitialProps = async (context) => {
+    console.log(Object.keys(context.store));
+    context.store.dispatch({
+        type: LOAD_MAIN_POSTS_REQUEST
+    });
+}
 
 export default Home;

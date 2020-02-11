@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Proptypes from "prop-types";
 import withRedux from "next-redux-wrapper";
+import withReduxSaga from 'next-redux-saga';
 import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
@@ -77,9 +78,15 @@ const configStore = (initialState, options) => {
                       : f => f
               );
     const store = createStore(reducer, initialState, enhancer);
+    // next에서 redux-saga를 이용해 서버사이드 렌더링을 가능하게 해주는 코드
+    store.sagaTask = sagaMiddleware.run(rootSaga);
     sagaMiddleware.run(rootSaga);
     return store;
 };
 
+
+// next-redux-saga -> next 서버에서 redux-saga를 사용할 수 있게 해주는 플러그인
+// next-redux-saga 설치 후 모든 프론트영역을 감싸는 코드영역의 export 코드를 감싸준다(고차 컴포넌트)
+
 // 고차 컴포넌트
-export default withRedux(configStore)(Nodebird);
+export default withRedux(configStore)(withReduxSaga(Nodebird));
