@@ -59,6 +59,7 @@ export const EDIT_NICKNAME_SUCCESS = "EDIT_NICKNAME_SUCCESS";
 export const EDIT_NICKNAME_FAILURE = "EDIT_NICKNAME_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
+export const REMOVE_POST_TO_ME = "REMOVE_POST_TO_ME";
 
 // 실제 액션
 export const signUpRequestAction = data => {
@@ -68,12 +69,6 @@ export const signUpRequestAction = data => {
     };
 };
 
-export const loginRequestAction = {
-    type: LOG_IN_REQUEST
-};
-export const logoutAction = {
-    type: LOG_OUT_REQUEST
-};
 
 // 리듀서 -> Action의 결과로 state를 어떻게 바꿀지 정의
 export default (state = initialState, action) => {
@@ -207,6 +202,15 @@ export default (state = initialState, action) => {
                 me: {
                     ...state.me,
                     Posts: [{ id: action.data }, ...state.me.Posts]
+                }
+            };
+        }
+        case REMOVE_POST_TO_ME: {
+            return {
+                ...state,
+                me: {
+                    ...state.me,
+                    Posts: state.me.Posts.filter(v=> v.id !==action.data)
                 }
             };
         }

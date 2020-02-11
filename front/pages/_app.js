@@ -102,7 +102,6 @@ const configStore = (initialState, options) => {
     const store = createStore(reducer, initialState, enhancer);
     // next에서 redux-saga를 이용해 서버사이드 렌더링을 가능하게 해주는 코드
     store.sagaTask = sagaMiddleware.run(rootSaga);
-    sagaMiddleware.run(rootSaga);
     return store;
 };
 
