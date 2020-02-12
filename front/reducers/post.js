@@ -157,7 +157,10 @@ export default (state = initialState, action) => {
         case LOAD_USER_POSTS_REQUEST: {
             return {
                 ...state,
-                mainPosts: []
+                // 페이지 처음 들어왔을 땐 초기화하고 기존 게시글 보고 있는
+                // 상태에서 스크롤 내릴 땐 기존 게시글들 유지
+                mainPosts: action.lastId === 0 ? [] : state.mainPosts,
+                hasMorePost: action.lastId ? state.hasMorePost : true
             };
         }
         case LOAD_MAIN_POSTS_SUCCESS:
@@ -165,7 +168,8 @@ export default (state = initialState, action) => {
         case LOAD_USER_POSTS_SUCCESS: {
             return {
                 ...state,
-                mainPosts: action.data
+                mainPosts: state.mainPosts.concat(action.data),
+                hasMorePost: action.data.length === 10 // 스크롤을 더 활성화할지 말지 결정
             };
         }
         case LOAD_MAIN_POSTS_FAILURE:
@@ -246,7 +250,7 @@ export default (state = initialState, action) => {
         case REMOVE_POST_SUCCESS: {
             return {
                 ...state,
-                mainPosts: state.mainPosts.filter(v => v.id !==action.data)
+                mainPosts: state.mainPosts.filter(v => v.id !== action.data)
             };
         }
         case REMOVE_POST_FAILURE: {
