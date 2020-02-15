@@ -177,10 +177,12 @@ export default (state = initialState, action) => {
                 // };
             }
             case LOAD_COMMENTS_SUCCESS: {
-                const postIndex = draft.mainPosts.findIndex(v => v.id === action.data.postId);
+                const postIndex = draft.mainPosts.findIndex(
+                    v => v.id === action.data.postId
+                );
                 draft.mainPosts[postIndex].Comments = action.data.comments;
                 break;
-                
+
                 // const postIndex = state.mainPosts.findIndex(
                 //     v => v.id === action.data.postId
                 // );
@@ -197,101 +199,125 @@ export default (state = initialState, action) => {
             case LOAD_MAIN_POSTS_REQUEST:
             case LOAD_HASHTAG_POSTS_REQUEST:
             case LOAD_USER_POSTS_REQUEST: {
-                return {
-                    ...state,
-                    // 페이지 처음 들어왔을 땐 초기화하고 기존 게시글 보고 있는
-                    // 상태에서 스크롤 내릴 땐 기존 게시글들 유지
-                    mainPosts: action.lastId === 0 ? [] : state.mainPosts,
-                    hasMorePost: action.lastId ? state.hasMorePost : true
-                };
+                draft.mainPosts = action.lastId === 0 ? [] : state.mainPosts;
+                draft.hasMorePost = action.lastId ? state.hasMorePost : true;
+                break;
+                // return {
+                //     ...state,
+                //     // 페이지 처음 들어왔을 땐 초기화하고 기존 게시글 보고 있는
+                //     // 상태에서 스크롤 내릴 땐 기존 게시글들 유지
+                //     mainPosts: action.lastId === 0 ? [] : state.mainPosts,
+                //     hasMorePost: action.lastId ? state.hasMorePost : true
+                // };
             }
             case LOAD_MAIN_POSTS_SUCCESS:
             case LOAD_HASHTAG_POSTS_SUCCESS:
             case LOAD_USER_POSTS_SUCCESS: {
-                return {
-                    ...state,
-                    mainPosts: state.mainPosts.concat(action.data),
-                    hasMorePost: action.data.length === 10 // 스크롤을 더 활성화할지 말지 결정
-                };
+                draft.mainPosts = draftmainPosts.concat(action.data);
+                draft.hasMorePos = action.data.length === 10;
+                break;
+                // return {
+                //     ...state,
+                //     mainPosts: state.mainPosts.concat(action.data),
+                //     hasMorePost: action.data.length === 10 // 스크롤을 더 활성화할지 말지 결정
+                // };
             }
             case LOAD_MAIN_POSTS_FAILURE:
             case LOAD_HASHTAG_POSTS_FAILURE:
             case LOAD_USER_POSTS_FAILURE: {
-                return {
-                    ...state
-                };
+                break;
             }
             case LIKE_POST_REQUEST: {
-                return {
-                    ...state
-                };
+                break;
             }
             case LIKE_POST_SUCCESS: {
-                const postIndex = state.mainPosts.findIndex(
+                const postIndex = draft.mainPosts.findIndex(
                     v => v.id === action.data.postId
                 );
-                const post = state.mainPosts[postIndex];
-                const Likers = [{ id: action.data.userId }, ...post.Likers];
-                const mainPosts = [...state.mainPosts];
-                mainPosts[postIndex] = { ...post, Likers };
-
-                return {
-                    ...state,
-                    mainPosts
-                };
+                const Likers = draft.mainPosts[postIndex].Likers.unshift({
+                    id: action.data.userId
+                });
+                break;
+                // const postIndex = state.mainPosts.findIndex(
+                //     v => v.id === action.data.postId
+                // );
+                // const post = state.mainPosts[postIndex];
+                // const Likers = [{ id: action.data.userId }, ...post.Likers];
+                // const mainPosts = [...state.mainPosts];
+                // mainPosts[postIndex] = { ...post, Likers };
+                // return {
+                //     ...state,
+                //     mainPosts
+                // };
             }
             case LIKE_POST_FAILURE: {
-                return {
-                    ...state
-                };
+                break;
+                // return {
+                //     ...state
+                // };
             }
             case UNLIKE_POST_REQUEST: {
-                return {
-                    ...state
-                };
+                break;
+                // return {
+                //     ...state
+                // };
             }
             case UNLIKE_POST_SUCCESS: {
-                const postIndex = state.mainPosts.findIndex(
+                const postIndex = draft.mainPosts.findIndex(
                     v => v.id === action.data.postId
                 );
-                const post = state.mainPosts[postIndex];
-                const Likers = post.Likers.filter(
-                    v => v.id !== action.data.userId
+                const likeIndex = draft.mainPosts[postIndex].Likers.findIndex(
+                    v => v.id === action.data.userId
                 );
-                const mainPosts = [...state.mainPosts];
-                mainPosts[postIndex] = { ...post, Likers };
-                return {
-                    ...state,
-                    mainPosts
-                };
+                draft.mainPosts[postIndex].Likers.splice(likeIndex, 1);
+
+                // const postIndex = state.mainPosts.findIndex(
+                //     v => v.id === action.data.postId
+                // );
+                // const post = state.mainPosts[postIndex];
+                // const Likers = post.Likers.filter(
+                //     v => v.id !== action.data.userId
+                // );
+                // const mainPosts = [...state.mainPosts];
+                // mainPosts[postIndex] = { ...post, Likers };
+                // return {
+                //     ...state,
+                //     mainPosts
+                // };
             }
             case UNLIKE_POST_FAILURE: {
-                return {
-                    ...state
-                };
+                break;
+                // return {
+                //     ...state
+                // };
             }
             case RETWEET_REQUEST: {
-                return {
-                    ...state
-                };
+                break;
+                // return {
+                //     ...state
+                // };
             }
             case RETWEET_SUCCESS: {
-                return {
-                    ...state,
-                    mainPosts: [action.data, ...state.mainPosts]
-                };
+                draft.mainPosts = draft.mainPosts.unshift(action.data);
+                break;
+                // return {
+                //     ...state,
+                //     mainPosts: [action.data, ...state.mainPosts]
+                // };
             }
             case RETWEET_FAILURE: {
-                return {
-                    ...state
-                };
+                break;
+                // return {
+                //     ...state
+                // };
             }
             case REMOVE_POST_REQUEST: {
-                return {
-                    ...state
-                };
+                // return {
+                //     ...state
+                // };
             }
             case REMOVE_POST_SUCCESS: {
+                // 수정 중
                 return {
                     ...state,
                     mainPosts: state.mainPosts.filter(v => v.id !== action.data)
