@@ -317,7 +317,7 @@ export default (state = initialState, action) => {
                 // };
             }
             case REMOVE_POST_SUCCESS: {
-                // 수정 중
+                // 수정 중/
                 return {
                     ...state,
                     mainPosts: state.mainPosts.filter(v => v.id !== action.data)
