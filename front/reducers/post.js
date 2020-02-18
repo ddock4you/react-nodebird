@@ -58,7 +58,7 @@ export const REMOVE_POST_SUCCESS = "REMOVE_POST_SUCCESS";
 export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE";
 
 export default (state = initialState, action) => {
-    return producr(state, draft => {
+    return produce(state, draft => {
         switch (action.type) {
             case UPLOAD_IMAGES_REQUEST: {
                 break;
@@ -199,7 +199,7 @@ export default (state = initialState, action) => {
             case LOAD_MAIN_POSTS_REQUEST:
             case LOAD_HASHTAG_POSTS_REQUEST:
             case LOAD_USER_POSTS_REQUEST: {
-                draft.mainPosts = action.lastId === 0 ? [] : state.mainPosts;
+                draft.mainPosts = !action.lastId ? [] : state.mainPosts;
                 draft.hasMorePost = action.lastId ? state.hasMorePost : true;
                 break;
                 // return {
@@ -213,8 +213,10 @@ export default (state = initialState, action) => {
             case LOAD_MAIN_POSTS_SUCCESS:
             case LOAD_HASHTAG_POSTS_SUCCESS:
             case LOAD_USER_POSTS_SUCCESS: {
-                draft.mainPosts = draftmainPosts.concat(action.data);
-                draft.hasMorePos = action.data.length === 10;
+                action.data.forEach(d => {
+                    draft.mainPosts.push(d);
+                });
+                draft.hasMorePost = action.data.length === 10;
                 break;
                 // return {
                 //     ...state,
@@ -234,7 +236,7 @@ export default (state = initialState, action) => {
                 const postIndex = draft.mainPosts.findIndex(
                     v => v.id === action.data.postId
                 );
-                const Likers = draft.mainPosts[postIndex].Likers.unshift({
+                draft.mainPosts[postIndex].Likers.unshift({
                     id: action.data.userId
                 });
                 break;
@@ -317,21 +319,26 @@ export default (state = initialState, action) => {
                 // };
             }
             case REMOVE_POST_SUCCESS: {
-                // 수정 중/
-                return {
-                    ...state,
-                    mainPosts: state.mainPosts.filter(v => v.id !== action.data)
-                };
+                const index = draft.mainPosts.findIndex(
+                    v => v.id === action.data
+                );
+                draft.mainPosts.splice(index, 1);
+                // return {
+                //     ...state,
+                //     mainPosts: state.mainPosts.filter(v => v.id !== action.data)
+                // };
             }
             case REMOVE_POST_FAILURE: {
-                return {
-                    ...state
-                };
+                break;
+                // return {
+                //     ...state
+                // };
             }
             default: {
-                return {
-                    ...state
-                };
+                break;
+                // return {
+                //     ...state
+                // };
             }
         }
     });
