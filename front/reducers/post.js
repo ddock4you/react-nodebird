@@ -8,7 +8,8 @@ export const initialState = {
     postAdded: false, // 포스트 업로드 성공
     isAddingComment: false,
     addCommentErrorReason: "",
-    commentAdded: false
+    commentAdded: false,
+    singlePost: null
 };
 
 export const LOAD_MAIN_POSTS_REQUEST = "LOAD_MAIN_POSTS_REQUEST";
@@ -56,6 +57,10 @@ export const RETWEET_FAILURE = "RETWEET_FAILURE";
 export const REMOVE_POST_REQUEST = "REMOVE_POST_REQUEST";
 export const REMOVE_POST_SUCCESS = "REMOVE_POST_SUCCESS";
 export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE";
+
+export const LOAD_POST_REQUEST = "LOAD_POST_REQUEST";
+export const LOAD_POST_SUCCESS = "LOAD_POST_SUCCESS";
+export const LOAD_POST_FAILURE = "LOAD_POST_FAILURE";
 
 export default (state = initialState, action) => {
     return produce(state, draft => {
@@ -333,6 +338,10 @@ export default (state = initialState, action) => {
                 // return {
                 //     ...state
                 // };
+            }
+            case LOAD_POST_SUCCESS: {
+                draft.singlePost = action.data;
+                break;
             }
             default: {
                 break;

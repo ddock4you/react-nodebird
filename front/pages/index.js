@@ -8,6 +8,7 @@ const Home = () => {
     const { me } = useSelector(state => state.user);
     const { mainPosts, hasMorePost } = useSelector(state => state.post);
     const dispatch = useDispatch();
+    // 프론트단에서 리덕스 액션을 한 번만 호출되게 수정
     const countRef = useRef([]);
 
     const onScroll = useCallback(() => {
