@@ -1,6 +1,7 @@
 import React from "react";
 import Helmet from "react-helmet";
 import Document, { Main, NextScript } from "next/document";
+import { ServerStyleSheet } from "styled-components";
 import PropTypes from "prop-types";
 
 class MyDocument extends Document {
@@ -10,8 +11,16 @@ class MyDocument extends Document {
         // const initialProps = await Document.getInitialProps(context);
         // App === _App.js
         // Document에서 App을 실행하여 렌더링 시켜줘야 함.
-        const page = context.renderPage(App => props => <App {...props} />);
-        return { ...page, /*...initialProps,*/ helmet: Helmet.renderStatic() };
+        const sheet = new ServerStyleSheet();
+        const page = context.renderPage(App => props =>
+            sheet.collectStyles(<App {...props} />)
+        );
+        const styleTags = sheet.getStyleElement();
+        return {
+            ...page,
+            /*...initialProps,*/ helmet: Helmet.renderStatic(),
+            styleTags
+        };
     }
 
     render() {
@@ -21,7 +30,10 @@ class MyDocument extends Document {
         console.log(helmet);
         return (
             <html {...htmlAttrs}>
-                <head>{Object.values(helmet).map(el => el.toComponent())}</head>
+                <head>
+                    {this.props.styleTags}
+                    {Object.values(helmet).map(el => el.toComponent())}
+                </head>
                 <body {...bodyAttrs}>
                     <Main />
                     <NextScript />
@@ -32,7 +44,8 @@ class MyDocument extends Document {
 }
 
 MyDocument.propTypes = {
-    helmet: PropTypes.object.isRequired
+    helmet: PropTypes.object.isRequired,
+    styleTags: PropTypes.object.isRequired
 };
 
 export default MyDocument;

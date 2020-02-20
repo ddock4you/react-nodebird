@@ -3,12 +3,20 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { Menu, Input, Button, Row, Col, Card, Avatar, Form } from "antd";
 import { useSelector, useDispatch } from "react-redux";
+import Router from "next/router";
 import LoginForm from "./LoginForm";
 import UserProfile from "./UserProfile";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const AppLayout = ({ children }) => {
     const { isLoggedIn, me } = useSelector(state => state.user);
+
+    const onSearch = value => {
+        Router.push(
+            { pathname: "/hashtag", query: { tag: value } },
+            `/hashtag/${value}`
+        );
+    };
 
     return (
         <div>
@@ -29,6 +37,7 @@ const AppLayout = ({ children }) => {
                         style={{
                             verticalAlign: "middle"
                         }}
+                        onSearch={onSearch}
                     />
                 </Menu.Item>
             </Menu>

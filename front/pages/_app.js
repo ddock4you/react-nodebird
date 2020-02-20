@@ -119,7 +119,7 @@ Nodebird.getInitialProps = async context => {
     }
     if (Component.getInitialProps) {
         // Component에 getInitialProps가 있을 경우 실행
-        pageProps = await Component.getInitialProps(ctx); // Component 컴포넌트에 props 전달(실행)
+        pageProps = (await Component.getInitialProps(ctx)) || {}; // Component 컴포넌트에 props 전달(실행)
     }
     return { pageProps };
 };

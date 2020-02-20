@@ -40,7 +40,7 @@ const User = () => {
                 </Card>
             ) : null}
             {mainPosts.map(c => (
-                <PostCard key={+c.createdAt} post={c} />
+                <PostCard key={+c.id} post={c} />
             ))}
         </div>
     );
@@ -56,11 +56,11 @@ User.getInitialProps = async context => {
     const id = parseInt(context.query.id, 10);
     context.store.dispatch({
         type: LOAD_USER_REQUEST,
-            data: id
+        data: id
     });
     context.store.dispatch({
         type: LOAD_USER_POSTS_REQUEST,
-            data: id
+        data: id
     });
     return { id };
 };
