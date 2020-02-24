@@ -73,7 +73,7 @@ export default (state = initialState, action) => {
             }
             case UPLOAD_IMAGES_SUCCESS: {
                 action.data.forEach(p => {
-                    draft.imagePath.psuh(p);
+                    draft.imagePaths.push(p);
                 });
                 // draft 또다른 표현 방법
                 // draft.imagePaths = draft.imagePaths.concat(action.data);
