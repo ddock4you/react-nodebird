@@ -5,14 +5,16 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon",
-        "build": "next build",
+        "build": "cross-env ANALYZE=true next build",
         "start": "next start"
     },
     "author": "ddock4you",
     "license": "ISC",
     "dependencies": {
+        "@next/bundle-analyzer": "^9.2.2",
         "antd": "^3.26.5",
         "cookie-parser": "^1.4.4",
+        "cross-env": "^7.0.0",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-session": "^1.17.0",

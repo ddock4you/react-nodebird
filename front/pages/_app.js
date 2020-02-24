@@ -127,7 +127,7 @@ const configStore = (initialState, options) => {
     const middlewares = [
         sagaMiddleware,
         store => next => action => {
-            console.log(action);
+            // console.log(action);
             next(action);
         }
     ];

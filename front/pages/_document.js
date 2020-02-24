@@ -27,7 +27,7 @@ class MyDocument extends Document {
         const { htmlAttributes, bodyAttributes, ...helmet } = this.props.helmet;
         const htmlAttrs = htmlAttributes.toComponent();
         const bodyAttrs = bodyAttributes.toComponent();
-        console.log(helmet);
+        // console.log(helmet);
         return (
             <html {...htmlAttrs}>
                 <head>
