@@ -18,7 +18,7 @@ const UserProfile = () => {
     return (
         <Card
             actions={[
-                <Link href="/profile" key="twit">
+                <Link href="/profile" key="twit" prefetch>
                     <a>
                         <div>
                             짹짹
@@ -27,7 +27,7 @@ const UserProfile = () => {
                         </div>
                     </a>
                 </Link>,
-                <Link href="/profile" key="following">
+                <Link href="/profile" key="following" prefetch>
                     <a>
                         <div>
                             팔로잉
@@ -36,7 +36,7 @@ const UserProfile = () => {
                         </div>
                     </a>
                 </Link>,
-                <Link href="/profile" key="follower">
+                <Link href="/profile" key="follower" prefetch>
                     <a>
                         <div>
                             팔로우
