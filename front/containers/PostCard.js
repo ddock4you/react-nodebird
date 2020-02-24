@@ -14,6 +14,8 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import moment from "moment";
+moment.locale("ko");
 
 import {
     ADD_COMMENT_REQUEST,
@@ -196,6 +198,9 @@ const PostCard = ({ post }) => {
                             )
                         }
                     >
+                        <span style={{ float: "right" }}>
+                            {moment(post.createdAt).format("YYYY.MM.DD.")}
+                        </span>
                         <Card.Meta
                             avatar={
                                 // 동적인 라우터일 땐 객체 방식으로 주소를 입력

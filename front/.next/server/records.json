@@ -26,8 +26,34 @@
     }
   },
   "chunks": {
-    "byName": {},
+    "byName": {
+      "init-server.js": 0,
+      "on-error-server.js": 1,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\_app.js": 2,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\_document.js": 3,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\_error.js": 4,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\about.js": 5,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\hashtag.js": 6,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\index.js": 7,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\post.js": 8,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\profile.js": 9,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\signup.js": 10,
+      "static\\lf8D8FMnh1PD7uOdEFve6\\pages\\user.js": 11
+    },
     "bySource": {},
-    "usedIds": []
+    "usedIds": [
+      0,
+      1,
+      10,
+      11,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
   }
 }
