@@ -60,7 +60,8 @@ function* logIn(action) {
         // loginAPI 실패
         console.error(e);
         yield put({
-            type: LOG_IN_FAILURE
+            type: LOG_IN_FAILURE,
+            error: e.response && e.response.data
         });
     }
 }
@@ -218,9 +219,12 @@ function* watchUnfollow() {
 }
 
 function loadFollowersAPI(userId, offset = 0, limit = 3) {
-    return axios.get(`/user/${userId || 0}/followers?offset=${offset}&limit=${limit}`, {
-        withCredentials: true
-    });
+    return axios.get(
+        `/user/${userId || 0}/followers?offset=${offset}&limit=${limit}`,
+        {
+            withCredentials: true
+        }
+    );
 }
 
 function* loadFollowers(action) {
@@ -244,14 +248,21 @@ function* watchLoadFollowers() {
 }
 
 function loadFollowingsAPI(userId, offset = 0, limit = 3) {
-    return axios.get(`/user/${userId || 0}/followings?offset=${offset}&limit=${limit}`, {
-        withCredentials: true
-    });
+    return axios.get(
+        `/user/${userId || 0}/followings?offset=${offset}&limit=${limit}`,
+        {
+            withCredentials: true
+        }
+    );
 }
 
 function* loadFollowings(action) {
     try {
-        const result = yield call(loadFollowingsAPI, action.data, action.offset);
+        const result = yield call(
+            loadFollowingsAPI,
+            action.data,
+            action.offset
+        );
         yield put({
             type: LOAD_FOLLOWINGS_SUCCESS,
             data: result.data
@@ -283,10 +294,9 @@ function* removeFollower(action) {
             data: result.data
         });
     } catch (e) {
-        // loginAPI 실패
         yield put({
             type: REMOVE_FOLLOWER_FAILURE,
-            error: e
+            error: e.response && e.response.data
         });
     }
 }
