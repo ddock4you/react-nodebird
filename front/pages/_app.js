@@ -53,7 +53,7 @@ const Nodebird = ({ Component, store, pageProps }) => {
                     },
                     {
                         property: "og:image",
-                        content: "http://localhost:3000/favicon.ico"
+                        content: "http://15.165.132.128/favicon.ico"
                     }
                 ]}
                 link={[

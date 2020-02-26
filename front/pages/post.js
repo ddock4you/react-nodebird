@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { LOAD_POST_REQUEST } from "../reducers/post";
+import { backUrl } from "../config/config";
 
 const Post = ({ id }) => {
     const { singlePost } = useSelector(state => state.post);
@@ -28,11 +29,11 @@ const Post = ({ id }) => {
                         property: "og:image",
                         content:
                             singlePost.Images[0] &&
-                            `http://localhost:3065/${singlePost.Images[0].src}`
+                            `${backUrl}/${singlePost.Images[0].src}`
                     },
                     {
                         property: "og:url",
-                        content: `http://localhost:3060/post/${id}`
+                        content: `http://15.165.132.128/post/${id}`
                     }
                 ]}
             />
@@ -40,9 +41,7 @@ const Post = ({ id }) => {
             <div>{singlePost.User.nickname}</div>
             <div>
                 {singlePost.Images[0] && (
-                    <img
-                        src={`http://localhost:3060/${singlePost.Images[0].src}`}
-                    />
+                    <img src={`${backUrl}/${singlePost.Images[0].src}`} />
                 )}
             </div>
         </>
