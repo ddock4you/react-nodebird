@@ -48,6 +48,7 @@ const Profile = () => {
             offset: followingList.length
         });
     }, [followingList.length]);
+
     const loadMoreFollowers = useCallback(() => {
         dispatch({
             type: LOAD_FOLLOWERS_REQUEST,
@@ -59,15 +60,15 @@ const Profile = () => {
         <div>
             <NicknameEditForm />
             <FollowList
-                header={<div>팔로잉 목록</div>}
+                header="팔로잉 목록"
                 hasMore={hasMoreFollowing}
-                onClickmore={loadMoreFollowings}
+                onClickMore={loadMoreFollowings}
                 data={followingList}
                 onClickStop={onUnfollow}
             />
 
             <FollowList
-                header={<div>팔로워 목록</div>}
+                header={"팔로워 목록"}
                 hasMore={hasMoreFollower}
                 onClickmore={loadMoreFollowers}
                 data={followerList}

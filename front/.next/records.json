@@ -1,0 +1,63 @@
+{
+  "modules": {
+    "byIdentifier": {
+      "multi next-client-pages-loader?page=%2F_app&absolutePagePath=private-next-pages%2F_app.js! node_modules/next/dist/client/router.js": 0
+    },
+    "usedIds": {
+      "0": 0
+    }
+  },
+  "chunks": {
+    "byName": {
+      "commons": 0,
+      "static/runtime/webpack.js": 1,
+      "framework": 2,
+      "eebe5c1f808fdec8b38a3948835fec2cf3d360c4": 3,
+      "2e8aa237fc749c2aaa1117ccb9b00e6156c1d366": 4,
+      "d0cce4656d2a6796069b5abc53029d08a556f63b": 5,
+      "aec7d165": 6,
+      "e77855f043459d8405fc2a411d3a40ffc3d88152": 7,
+      "412714b91443cbc32f7ca1f4b1a8b2034ab1b7f7": 8,
+      "2a9c6631d131bb1ef3bbabfba4a112bc75eddf3a": 9,
+      "6b1046a03ad3bbee039a70889bb660f13524a361": 10,
+      "c37aaaf08b336101098bdc71f1d0822b03af7b59": 11,
+      "static/runtime/main.js": 12,
+      "static/runtime/polyfills.js": 13,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\_app.js": 14,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\_error.js": 15,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\about.js": 16,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\hashtag.js": 17,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\index.js": 18,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\post.js": 19,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\profile.js": 20,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\signup.js": 21,
+      "static\\bozvL5d3SCi5-hhEyyWXW\\pages\\user.js": 22
+    },
+    "bySource": {},
+    "usedIds": [
+      0,
+      1,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      2,
+      20,
+      21,
+      22,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+}
