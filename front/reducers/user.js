@@ -275,7 +275,7 @@ export default (state = initialState, action) => {
             case LOAD_FOLLOWERS_REQUEST: {
                 draft.followerList = !action.offset ? [] : draft.followerList;
                 draft.hasMoreFollower = action.offset
-                    ? state.hasMoreFollower
+                    ? draft.hasMoreFollower
                     : true;
                 break;
                 // return {
