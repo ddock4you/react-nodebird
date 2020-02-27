@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { LOAD_POST_REQUEST } from "../reducers/post";
-import { backUrl, frontUrl } from "../config/config";
+import { frontUrl } from "../config/config";
 
 const Post = ({ id }) => {
     const { singlePost } = useSelector(state => state.post);
@@ -27,9 +27,9 @@ const Post = ({ id }) => {
                     },
                     {
                         property: "og:image",
-                        content:
-                            singlePost.Images[0] &&
-                            `${backUrl}/${singlePost.Images[0].src}`
+                        content: singlePost.Images[0]
+                            ? singlePost.Images[0].src
+                            : `${frontUrl}/favicon.ico`
                     },
                     {
                         property: "og:url",
@@ -40,9 +40,7 @@ const Post = ({ id }) => {
             <div>{singlePost.content}</div>
             <div>{singlePost.User.nickname}</div>
             <div>
-                {singlePost.Images[0] && (
-                    <img src={`${backUrl}/${singlePost.Images[0].src}`} />
-                )}
+                {singlePost.Images[0] && <img src={singlePost.Images[0].src} />}
             </div>
         </>
     );
