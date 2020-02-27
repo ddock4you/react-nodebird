@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { LOAD_POST_REQUEST } from "../reducers/post";
-import { backUrl } from "../config/config";
+import { backUrl, frontUrl } from "../config/config";
 
 const Post = ({ id }) => {
     const { singlePost } = useSelector(state => state.post);
@@ -33,7 +33,7 @@ const Post = ({ id }) => {
                     },
                     {
                         property: "og:url",
-                        content: `http://15.165.132.128/post/${id}`
+                        content: `${frontUrl}/post/${id}`
                     }
                 ]}
             />

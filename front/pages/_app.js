@@ -14,6 +14,7 @@ import AppLayout from "../components/AppLayout";
 import reducer from "../reducers";
 import rootSaga from "../sagas";
 import { LOAD_USER_REQUEST } from "../reducers/user";
+import { frontUrl } from "../config/config";
 
 const Nodebird = ({ Component, store, pageProps }) => {
     // console.log(pageProps);
@@ -53,7 +54,7 @@ const Nodebird = ({ Component, store, pageProps }) => {
                     },
                     {
                         property: "og:image",
-                        content: "http://15.165.132.128/favicon.ico"
+                        content: `${frontUrl}/favicon.ico`
                     }
                 ]}
                 link={[
