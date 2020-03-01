@@ -7,14 +7,14 @@ const { isLoggedIn } = require("./middleware");
 const router = express.Router();
 
 router.get("/", isLoggedIn, (req, res) => {
+    // /api/user/
     const user = Object.assign({}, req.user.toJSON());
-    // console.log(user);
     delete user.password;
     return res.json(user);
 });
 
 router.post("/", async (req, res, next) => {
-    // POST  /api/user 회원가입
+    // POST /api/user 회원가입
     try {
         const exUser = await db.User.findOne({
             where: {
@@ -22,32 +22,28 @@ router.post("/", async (req, res, next) => {
             }
         });
         if (exUser) {
-            return res.status(403).send("이미 사용 중인 아이디입니다.");
+            return res.status(403).send("이미 사용중인 아이디입니다.");
         }
-        const hashedPassword = await bcrypt.hash(req.body.password, 12);
+        const hashedPassword = await bcrypt.hash(req.body.password, 12); // salt는 10~13 사이로
         const newUser = await db.User.create({
             nickname: req.body.nickname,
             userId: req.body.userId,
             password: hashedPassword
         });
-        // console.log(newUser);
+        console.log(newUser);
         return res.status(200).json(newUser);
     } catch (e) {
         console.error(e);
-        // return res.status(403).send(e);
         // 에러 처리를 여기서
         return next(e);
     }
 });
 
 router.get("/:id", async (req, res, next) => {
-    // 남의 정보 가져오는 것
-    // :id -> req.params.id로 가져올 수 있음
+    // 남의 정보 가져오는 것 ex) /api/user/123
     try {
         const user = await db.User.findOne({
-            where: {
-                id: parseInt(req.params.id, 10)
-            },
+            where: { id: parseInt(req.params.id, 10) },
             include: [
                 {
                     model: db.Post,
@@ -73,7 +69,7 @@ router.get("/:id", async (req, res, next) => {
             ? jsonUser.Followings.length
             : 0;
         jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length : 0;
-        res.json(user);
+        res.json(jsonUser);
     } catch (e) {
         console.error(e);
         next(e);
@@ -81,13 +77,14 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/logout", (req, res) => {
+    // /api/user/logout
     req.logout();
     req.session.destroy();
     res.send("logout 성공");
 });
 
 router.post("/login", (req, res, next) => {
-    // /POST /api/user/login
+    // POST /api/user/login
     passport.authenticate("local", (err, user, info) => {
         if (err) {
             console.error(err);
@@ -124,11 +121,6 @@ router.post("/login", (req, res, next) => {
                 });
                 console.log(fullUser);
                 return res.json(fullUser);
-
-                // console.log("login success", req.user);
-                // const filteredUser = Object.assign({}, user.toJSON());
-                // delete filteredUser.password;
-                // return res.json(filteredUser);
             } catch (e) {
                 next(e);
             }
@@ -137,21 +129,22 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
+    // /api/user/:id/followings
     try {
         const user = await db.User.findOne({
             where: {
                 id:
                     parseInt(req.params.id, 10) ||
-                    (req.user.id && req.user.id) ||
+                    (req.user && req.user.id) ||
                     0
             }
         });
-        const followings = await user.getFollowings({
+        const followers = await user.getFollowings({
             attributes: ["id", "nickname"],
             limit: parseInt(req.query.limit, 10),
             offset: parseInt(req.query.offset, 10)
         });
-        res.json(followings);
+        res.json(followers);
     } catch (e) {
         console.error(e);
         next(e);
@@ -159,15 +152,16 @@ router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
 });
 
 router.get("/:id/followers", isLoggedIn, async (req, res, next) => {
+    // /api/user/:id/followers
     try {
         const user = await db.User.findOne({
             where: {
                 id:
                     parseInt(req.params.id, 10) ||
-                    (req.user.id && req.user.id) ||
+                    (req.user && req.user.id) ||
                     0
             }
-        });
+        }); // req.params.id가 문자열 '0'
         const followers = await user.getFollowers({
             attributes: ["id", "nickname"],
             limit: parseInt(req.query.limit, 10),
@@ -186,7 +180,7 @@ router.delete("/:id/follower", isLoggedIn, async (req, res, next) => {
             where: { id: req.user.id }
         });
         await me.removeFollower(req.params.id);
-        res.send(req.params.id); //send로 보내니 즉각 반응함. jsonㅁ과의 차이는??
+        res.send(req.params.id);
     } catch (e) {
         console.error(e);
         next(e);
@@ -196,7 +190,6 @@ router.delete("/:id/follower", isLoggedIn, async (req, res, next) => {
 router.post("/:id/follow", isLoggedIn, async (req, res, next) => {
     try {
         const me = await db.User.findOne({
-            // 내정보 검색
             where: { id: req.user.id }
         });
         await me.addFollowing(req.params.id);
@@ -220,15 +213,13 @@ router.delete("/:id/follow", isLoggedIn, async (req, res, next) => {
     }
 });
 
-router.delete("/:id/follower", (req, res) => {});
-
 router.get("/:id/posts", async (req, res, next) => {
     try {
         const posts = await db.Post.findAll({
             where: {
                 UserId:
                     parseInt(req.params.id, 10) ||
-                    (req.user.id && req.user.id) ||
+                    (req.user && req.user.id) ||
                     0,
                 RetweetId: null
             },
@@ -255,7 +246,7 @@ router.get("/:id/posts", async (req, res, next) => {
     }
 });
 
-router.patch("/nickname", async (req, res, next) => {
+router.patch("/nickname", isLoggedIn, async (req, res, next) => {
     try {
         await db.User.update(
             {
