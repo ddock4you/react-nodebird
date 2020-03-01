@@ -38,7 +38,7 @@ import {
     LOAD_POST_SUCCESS,
     LOAD_POST_FAILURE
 } from "../reducers/post";
-import { ADD_POST_TO_ME, REMOVE_POST_TO_ME } from "../reducers/user";
+import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
 
 function addPostAPI(postData) {
     return axios.post("/post", postData, {
@@ -348,7 +348,7 @@ function* removePost(action) {
             data: result.data
         });
         yield put({
-            type: REMOVE_POST_TO_ME,
+            type: REMOVE_POST_OF_ME,
             data: result.data
         });
     } catch (e) {
