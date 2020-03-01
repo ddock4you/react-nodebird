@@ -88,9 +88,9 @@ export default (state = initialState, action) => {
                 // };
             }
             case LOG_IN_SUCCESS: {
-                draft.isLoggedIn = false;
+                draft.isLoggingIn = false;
+                draft.logInErrorReason = "";
                 draft.me = action.data;
-                draft.isLoading = false;
                 break;
                 // return {
                 //     ...state,
@@ -142,8 +142,8 @@ export default (state = initialState, action) => {
                 // };
             }
             case SIGN_UP_SUCCESS: {
-                draft.isSigninUp = false;
-                draft.isSigndUp = true;
+                draft.isSigningUp = false;
+                draft.isSignedUp = true;
                 break;
                 // return {
                 //     ...state,
