@@ -78,7 +78,7 @@ export default (state = initialState, action) => {
     return produce(state, draft => {
         switch (action.type) {
             case LOG_IN_REQUEST: {
-                draft.isLoggedIn = true;
+                draft.isLoggingIn = true;
                 draft.logInErrorReason = "";
                 break;
                 // return {
