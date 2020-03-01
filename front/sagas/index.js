@@ -4,7 +4,7 @@ import user from "./user";
 import post from "./post";
 import { backUrl } from "../config/config";
 
-axios.defaults.baseURL = `${backUrl}/api`;
+axios.defaults.baseURL = `http://15.165.196.57/api`;
 
 export default function* rootSaga() {
     yield all([call(user), call(post)]);
