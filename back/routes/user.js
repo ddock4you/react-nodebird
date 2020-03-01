@@ -22,7 +22,7 @@ router.post("/", async (req, res, next) => {
             }
         });
         if (exUser) {
-            return res.status(400).send("이미 사용 중인 아이디입니다.");
+            return res.status(403).send("이미 사용 중인 아이디입니다.");
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
         const newUser = await db.User.create({
@@ -122,7 +122,7 @@ router.post("/login", (req, res, next) => {
                     ],
                     attributes: ["id", "nickname", "userId"]
                 });
-                // console.log(fullUser);
+                console.log(fullUser);
                 return res.json(fullUser);
 
                 // console.log("login success", req.user);
@@ -139,7 +139,12 @@ router.post("/login", (req, res, next) => {
 router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
     try {
         const user = await db.User.findOne({
-            where: { id: parseInt(req.params.id, 10) || (req.user.id && req.user.id) || 0 },
+            where: {
+                id:
+                    parseInt(req.params.id, 10) ||
+                    (req.user.id && req.user.id) ||
+                    0
+            }
         });
         const followings = await user.getFollowings({
             attributes: ["id", "nickname"],
@@ -156,7 +161,12 @@ router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
 router.get("/:id/followers", isLoggedIn, async (req, res, next) => {
     try {
         const user = await db.User.findOne({
-            where: { id: parseInt(req.params.id, 10) || (req.user.id && req.user.id) || 0 },
+            where: {
+                id:
+                    parseInt(req.params.id, 10) ||
+                    (req.user.id && req.user.id) ||
+                    0
+            }
         });
         const followers = await user.getFollowers({
             attributes: ["id", "nickname"],
@@ -216,7 +226,10 @@ router.get("/:id/posts", async (req, res, next) => {
     try {
         const posts = await db.Post.findAll({
             where: {
-                UserId: parseInt(req.params.id, 10) || (req.user.id && req.user.id) || 0,
+                UserId:
+                    parseInt(req.params.id, 10) ||
+                    (req.user.id && req.user.id) ||
+                    0,
                 RetweetId: null
             },
             include: [
