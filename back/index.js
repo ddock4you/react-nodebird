@@ -13,6 +13,7 @@ const postAPIRouter = require("./routes/post");
 const postsAPIRouter = require("./routes/posts");
 const hashtagAPIRouter = require("./routes/hashtag");
 
+const prod = process.env.NODE_ENV === "production";
 dotenv.config();
 const app = express();
 db.sequelize.sync();
@@ -53,9 +54,6 @@ app.use("/api/post", postAPIRouter);
 app.use("/api/posts", postsAPIRouter);
 app.use("/api/hashtag", hashtagAPIRouter);
 
-app.listen(
-    process.env.NODE_ENV === "production" ? process.env.PORT : 3065,
-    () => {
-        console.log(`server is running on ${process.env.PORT}`);
-    }
-);
+app.listen(prod ? process.env.PORT : 3065, () => {
+    console.log(`server is running on ${process.env.PORT}`);
+});
